@@ -22,7 +22,7 @@ as_yearmon <- zoo::as.yearmon  # <1>
 
 R---and especially newer packages included in the tidyverse package ecosystem---have very expressive data verbs that make code readable. Most data transformation steps concerning data tables are really a combination of a few basic actions. The most common are listed below with their names as used in R's [dplyr](https://dplyr.tidyverse.org/) package. We will use these in what follows to transform the raw compustat data into the variables we need for later analysis.
 
-![The basic grammar of data manipulation. Image [source](http://perso.ens-lyon.fr/lise.vaudor/dplyr/)](imgs/dplyr_schema.png){#fig-dplyr height="350px"}
+![The basic grammar of data manipulation. Image [source](http://perso.ens-lyon.fr/lise.vaudor/dplyr/)](dplyr_schema.png){#fig-dplyr height="350px"}
 
 - `dplyr::select()` picks columns of a table based on their names.
 - `dplyr::filter()` picks rows of a table based on their values.
