@@ -406,15 +406,15 @@ $ sic      &lt;chr&gt; "5812", "5812", "5812", "5712", "5712", "5712", "5712", "
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="1" data-code-annotation="1">Start with the <code>ccm_raw</code> dataset</span>
+<span data-code-cell="annotated-cell-10" data-code-annotation="1" data-code-lines="1">Start with the <code>ccm_raw</code> dataset</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="2" data-code-annotation="2">Select four columns, throw the rest away (using <code>dplyr::select</code>)</span>
+<span data-code-cell="annotated-cell-10" data-code-annotation="2" data-code-lines="2">Select four columns, throw the rest away (using <code>dplyr::select</code>)</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-10" data-code-lines="3" data-code-annotation="3">Call <code>namlab</code>on the reduced tibble to see the column labels for the selected labels</span>
+<span data-code-cell="annotated-cell-10" data-code-annotation="3" data-code-lines="3">Call <code>namlab</code>on the reduced tibble to see the column labels for the selected labels</span>
 </dd>
 </dl>
 </div>
@@ -434,7 +434,7 @@ $ sic      &lt;chr&gt; "5812", "5812", "5812", "5712", "5712", "5712", "5712", "
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="3" data-code-annotation="1"><code>collapse::funique</code> shows only unique combinations in a data frame.</span>
+<span data-code-cell="annotated-cell-11" data-code-annotation="1" data-code-lines="3"><code>collapse::funique</code> shows only unique combinations in a data frame.</span>
 </dd>
 </dl>
 </div>
@@ -530,23 +530,23 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-15" data-code-lines="1" data-code-annotation="1">Start with the table ccm_raw</span>
+<span data-code-cell="annotated-cell-15" data-code-annotation="1" data-code-lines="1">Start with the table ccm_raw</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-15" data-code-lines="2" data-code-annotation="2">Reduce the table to only rows with fic equaling (<code>==</code>) “NLD”</span>
+<span data-code-cell="annotated-cell-15" data-code-annotation="2" data-code-lines="2">Reduce the table to only rows with fic equaling (<code>==</code>) “NLD”</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-15" data-code-lines="3" data-code-annotation="3"><code>dplyr::pull</code> extracts the “conm” column from the reduce table into a vector</span>
+<span data-code-cell="annotated-cell-15" data-code-annotation="3" data-code-lines="3"><code>dplyr::pull</code> extracts the “conm” column from the reduce table into a vector</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-15" data-code-lines="4" data-code-annotation="4">Reduce to only unique values in the vector</span>
+<span data-code-cell="annotated-cell-15" data-code-annotation="4" data-code-lines="4">Reduce to only unique values in the vector</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-15" data-code-lines="5" data-code-annotation="5">Show the first 20 values in the vector</span>
+<span data-code-cell="annotated-cell-15" data-code-annotation="5" data-code-lines="5">Show the first 20 values in the vector</span>
 </dd>
 </dl>
 </div>
@@ -573,19 +573,19 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="1" data-code-annotation="1">Start with the table ccm_raw</span>
+<span data-code-cell="annotated-cell-16" data-code-annotation="1" data-code-lines="1">Start with the table ccm_raw</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="2" data-code-annotation="2">Reduce the table to only rows with conm equaling (<code>==</code>) “ASM INTERNATIONAL NV”</span>
+<span data-code-cell="annotated-cell-16" data-code-annotation="2" data-code-lines="2">Reduce the table to only rows with conm equaling (<code>==</code>) “ASM INTERNATIONAL NV”</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="3" data-code-annotation="3">Reduce the reduced table further to only contain the columns tic, cusip, conm, curcd, exchg</span>
+<span data-code-cell="annotated-cell-16" data-code-annotation="3" data-code-lines="3">Reduce the reduced table further to only contain the columns tic, cusip, conm, curcd, exchg</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="4" data-code-annotation="4"><code>dplyr::distinct</code>drops all repeating rows in the reduced table (could have also used <code>funique</code>)</span>
+<span data-code-cell="annotated-cell-16" data-code-annotation="4" data-code-lines="4"><code>dplyr::distinct</code>drops all repeating rows in the reduced table (could have also used <code>funique</code>)</span>
 </dd>
 </dl>
 </div>
@@ -612,11 +612,11 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-17" data-code-lines="2" data-code-annotation="1">Count how many observations exist for each unique gvkey x datadate combination</span>
+<span data-code-cell="annotated-cell-17" data-code-annotation="1" data-code-lines="2">Count how many observations exist for each unique gvkey x datadate combination</span>
 </dd>
 <dt data-target-cell="annotated-cell-17" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-17" data-code-lines="3" data-code-annotation="2">Show the first six observations in the resulting tibble</span>
+<span data-code-cell="annotated-cell-17" data-code-annotation="2" data-code-lines="3">Show the first six observations in the resulting tibble</span>
 </dd>
 </dl>
 </div>
@@ -641,11 +641,11 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-18" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-18" data-code-lines="2" data-code-annotation="1">Count how many observations exist for each unique gvkey x datadate combination. Call the count column “firm_year”</span>
+<span data-code-cell="annotated-cell-18" data-code-annotation="1" data-code-lines="2">Count how many observations exist for each unique gvkey x datadate combination. Call the count column “firm_year”</span>
 </dd>
 <dt data-target-cell="annotated-cell-18" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-18" data-code-lines="3" data-code-annotation="2">Count how often each value of the “firm_year” column occurs</span>
+<span data-code-cell="annotated-cell-18" data-code-annotation="2" data-code-lines="3">Count how often each value of the “firm_year” column occurs</span>
 </dd>
 </dl>
 </div>
@@ -667,11 +667,11 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-19" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-19" data-code-lines="2" data-code-annotation="1"><code>dplyr::add_count</code> counts the number of rows with a specific gvkey x datadate value and <em>adds</em> that value to the rows with the respective gvkey x datadate value</span>
+<span data-code-cell="annotated-cell-19" data-code-annotation="1" data-code-lines="2"><code>dplyr::add_count</code> counts the number of rows with a specific gvkey x datadate value and <em>adds</em> that value to the rows with the respective gvkey x datadate value</span>
 </dd>
 <dt data-target-cell="annotated-cell-19" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-19" data-code-lines="3" data-code-annotation="2">Next we filter to only keep rows with a count higher than 1</span>
+<span data-code-cell="annotated-cell-19" data-code-annotation="2" data-code-lines="3">Next we filter to only keep rows with a count higher than 1</span>
 </dd>
 </dl>
 </div>
@@ -711,19 +711,19 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-21" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-21" data-code-lines="2" data-code-annotation="1">Count how many observations exist for each unique gvkey x datadate combination. Call the count column “firm_year”</span>
+<span data-code-cell="annotated-cell-21" data-code-annotation="1" data-code-lines="2">Count how many observations exist for each unique gvkey x datadate combination. Call the count column “firm_year”</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-21" data-code-lines="4" data-code-annotation="2">Keep rows with either n_same_firm_year == 1 or linkprim == “P”</span>
+<span data-code-cell="annotated-cell-21" data-code-annotation="2" data-code-lines="4">Keep rows with either n_same_firm_year == 1 or linkprim == “P”</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-21" data-code-lines="5" data-code-annotation="3">Keep rows with fic in a list of values (“USA”)</span>
+<span data-code-cell="annotated-cell-21" data-code-annotation="3" data-code-lines="5">Keep rows with fic in a list of values (“USA”)</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-21" data-code-lines="7" data-code-annotation="4">Delete the column “n_same_firm_year”</span>
+<span data-code-cell="annotated-cell-21" data-code-annotation="4" data-code-lines="7">Delete the column “n_same_firm_year”</span>
 </dd>
 </dl>
 </div>
@@ -765,15 +765,15 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-24" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-24" data-code-lines="2" data-code-annotation="1">Drop all rows with missing values of at (assets total) from the data frame</span>
+<span data-code-cell="annotated-cell-24" data-code-annotation="1" data-code-lines="2">Drop all rows with missing values of at (assets total) from the data frame</span>
 </dd>
 <dt data-target-cell="annotated-cell-24" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-24" data-code-lines="3" data-code-annotation="2">Create a plotting canvas with the x axis being mapped to at</span>
+<span data-code-cell="annotated-cell-24" data-code-annotation="2" data-code-lines="3">Create a plotting canvas with the x axis being mapped to at</span>
 </dd>
 <dt data-target-cell="annotated-cell-24" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-24" data-code-lines="4" data-code-annotation="3">Draw a histogram on the plot canvas using 50 bins</span>
+<span data-code-cell="annotated-cell-24" data-code-annotation="3" data-code-lines="4">Draw a histogram on the plot canvas using 50 bins</span>
 </dd>
 </dl>
 </div>
@@ -795,15 +795,15 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-25" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-25" data-code-lines="2" data-code-annotation="1">Mutate the data by taking the log of at and storing the result into a new column named “Size”</span>
+<span data-code-cell="annotated-cell-25" data-code-annotation="1" data-code-lines="2">Mutate the data by taking the log of at and storing the result into a new column named “Size”</span>
 </dd>
 <dt data-target-cell="annotated-cell-25" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-25" data-code-lines="3" data-code-annotation="2">Only keep the columns at and Size. Drop all other columns</span>
+<span data-code-cell="annotated-cell-25" data-code-annotation="2" data-code-lines="3">Only keep the columns at and Size. Drop all other columns</span>
 </dd>
 <dt data-target-cell="annotated-cell-25" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-25" data-code-lines="4" data-code-annotation="3"><code>collapse:qsu</code> computes a quick summary (qsu)</span>
+<span data-code-cell="annotated-cell-25" data-code-annotation="3" data-code-lines="4"><code>collapse:qsu</code> computes a quick summary (qsu)</span>
 </dd>
 </dl>
 </div>
@@ -824,19 +824,19 @@ Size  218211          -           -  -Inf   15.1355</code></pre>
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-26" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-26" data-code-lines="2" data-code-annotation="1">Mutate the data by taking the log of at and storing the result into a new column named “Size”</span>
+<span data-code-cell="annotated-cell-26" data-code-annotation="1" data-code-lines="2">Mutate the data by taking the log of at and storing the result into a new column named “Size”</span>
 </dd>
 <dt data-target-cell="annotated-cell-26" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-26" data-code-lines="3" data-code-annotation="2">Drop all rows with infinite values of Size from the data frame</span>
+<span data-code-cell="annotated-cell-26" data-code-annotation="2" data-code-lines="3">Drop all rows with infinite values of Size from the data frame</span>
 </dd>
 <dt data-target-cell="annotated-cell-26" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-26" data-code-lines="4" data-code-annotation="3">Create a plotting canvas with the x axis being mapped to Size</span>
+<span data-code-cell="annotated-cell-26" data-code-annotation="3" data-code-lines="4">Create a plotting canvas with the x axis being mapped to Size</span>
 </dd>
 <dt data-target-cell="annotated-cell-26" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-26" data-code-lines="5" data-code-annotation="4">Draw a histogram on the plot canvas using 50 bins</span>
+<span data-code-cell="annotated-cell-26" data-code-annotation="4" data-code-lines="5">Draw a histogram on the plot canvas using 50 bins</span>
 </dd>
 </dl>
 </div>
@@ -884,51 +884,51 @@ Size  218211          -           -  -Inf   15.1355</code></pre>
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-28" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="1" data-code-annotation="1">Store the result of the computation into variable called <code>fig1</code></span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="1" data-code-lines="1">Store the result of the computation into variable called <code>fig1</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="3" data-code-annotation="2">Mutate the data by taking the log of at and storing the result into a new column named “Size”</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="2" data-code-lines="3">Mutate the data by taking the log of at and storing the result into a new column named “Size”</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="5" data-code-annotation="3">Drop all rows with infinite values of Size from the data frame</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="3" data-code-lines="5">Drop all rows with infinite values of Size from the data frame</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="6" data-code-annotation="4">Drop all rows with missing fiscal year (fyear) and fyear greater equal 2023</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="4" data-code-lines="6">Drop all rows with missing fiscal year (fyear) and fyear greater equal 2023</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="8" data-code-annotation="5">Create a plotting canvas with the x axis being mapped to Size and the y axis to fyear where fyear is transformed from an integer variable to a factor before. (A quirk of ggridges makes this necessary)</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="5" data-code-lines="8">Create a plotting canvas with the x axis being mapped to Size and the y axis to fyear where fyear is transformed from an integer variable to a factor before. (A quirk of ggridges makes this necessary)</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="9" data-code-annotation="6">Draw a ridge plot on the plot canvas using a certain parameter configuration</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="6" data-code-lines="9">Draw a ridge plot on the plot canvas using a certain parameter configuration</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="15" data-code-annotation="7">Add a guiding vertical line that intersects the x axis at 5.</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="7" data-code-lines="15">Add a guiding vertical line that intersects the x axis at 5.</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="8">8</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="16" data-code-annotation="8">Reduce the padding around the x axis (The default padding is to much for my taste)</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="8" data-code-lines="16">Reduce the padding around the x axis (The default padding is to much for my taste)</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="9">9</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="17" data-code-annotation="9">Reduce the padding around the y axis</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="9" data-code-lines="17">Reduce the padding around the y axis</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="10">10</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="18" data-code-annotation="10">Switch the standard grey theme to a lighter theme</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="10" data-code-lines="18">Switch the standard grey theme to a lighter theme</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="11">11</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="19" data-code-annotation="11">Remove some unnecessary gridlines</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="11" data-code-lines="19">Remove some unnecessary gridlines</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="12">12</dt>
 <dd>
-<span data-code-cell="annotated-cell-28" data-code-lines="20" data-code-annotation="12">Add annotations to finalize the plot</span>
+<span data-code-cell="annotated-cell-28" data-code-annotation="12" data-code-lines="20">Add annotations to finalize the plot</span>
 </dd>
 </dl>
 </div>
