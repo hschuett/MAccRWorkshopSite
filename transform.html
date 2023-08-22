@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>R Workshop - Part 2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.scss">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">R Workshop</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Intro</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./data.html" rel="" target="">
+ <span class="menu-text">Part 1</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./transform.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Part 2</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link" data-scroll-target="#loading-packages">Loading packages</a></li>
+  <li><a href="#the-grammar-of-data-manipulation" id="toc-the-grammar-of-data-manipulation" class="nav-link" data-scroll-target="#the-grammar-of-data-manipulation">The grammar of data manipulation</a></li>
+  <li><a href="#summarizing-data" id="toc-summarizing-data" class="nav-link" data-scroll-target="#summarizing-data">Summarizing data</a></li>
+  <li><a href="#picking-up-from-part-1" id="toc-picking-up-from-part-1" class="nav-link" data-scroll-target="#picking-up-from-part-1">Picking up from Part 1</a></li>
+  <li><a href="#cleaning-return-variables" id="toc-cleaning-return-variables" class="nav-link" data-scroll-target="#cleaning-return-variables">Cleaning return variables</a></li>
+  <li><a href="#generating-buy-and-hold-returns" id="toc-generating-buy-and-hold-returns" class="nav-link" data-scroll-target="#generating-buy-and-hold-returns">Generating buy-and-hold-returns</a></li>
+  <li><a href="#merging-compustat-and-crsp-data" id="toc-merging-compustat-and-crsp-data" class="nav-link" data-scroll-target="#merging-compustat-and-crsp-data">Merging Compustat and CRSP data</a></li>
+  <li><a href="#generating-changes-in-return-on-capital-employed" id="toc-generating-changes-in-return-on-capital-employed" class="nav-link" data-scroll-target="#generating-changes-in-return-on-capital-employed">Generating changes in return on capital employed</a></li>
+  <li><a href="#final-filtering" id="toc-final-filtering" class="nav-link" data-scroll-target="#final-filtering">Final filtering</a></li>
+  <li><a href="#visualizing-the-bhr-roce-relation" id="toc-visualizing-the-bhr-roce-relation" class="nav-link" data-scroll-target="#visualizing-the-bhr-roce-relation">Visualizing the BHR-ROCE relation</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Part 2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>In this part we will create a sample to investigate the relation between yearly changes in firm profitability and contemporaneous returns. We will find that the relation is far from simple. In addition to being the center of many interesting questions, this analysis is a nice exercise. It allows us to go into more details on how to transform data–especially how to prepare panel data for analyses. We will compute more involved variables, such as buy-and-hold-returns. We will also learn how to combine data in multiple tables. Finally, we will discuss a few presentation design principles that are important for presenting results. The final result of our analysis will be the following plot:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chroce-bhrets.png" class="img-fluid figure-img" style="width:5in"></p>
+</figure>
+</div>
+</section>
+<section id="loading-packages" class="level2">
+<h2 class="anchored" data-anchor-id="loading-packages">Loading packages</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(collapse)</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdensity)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>as_yearmon <span class="ot">&lt;-</span> zoo<span class="sc">::</span>as.yearmon</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="4" data-code-cell="annotated-cell-1" data-code-annotation="1">This statement is only attaching one function <code>as.yearmon</code> from the {zoo} package.</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="the-grammar-of-data-manipulation" class="level2">
+<h2 class="anchored" data-anchor-id="the-grammar-of-data-manipulation">The grammar of data manipulation</h2>
+<p>R—and especially newer packages included in the tidyverse package ecosystem—have very expressive data verbs that make code readable. Most data transformation steps concerning data tables are really a combination of a few basic actions. The most common are listed below with their names as used in R’s <a href="https://dplyr.tidyverse.org/">dplyr</a> package. We will use these in what follows to transform the raw compustat data into the variables we need for later analysis.</p>
+<div id="fig-dplyr" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="imgs/dplyr_schema.png" height="350" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: The basic grammar of data manipulation. Image <a href="http://perso.ens-lyon.fr/lise.vaudor/dplyr/">source</a></figcaption><p></p>
+</figure>
+</div>
+<ul>
+<li><code>dplyr::select()</code> picks columns of a table based on their names.</li>
+<li><code>dplyr::filter()</code> picks rows of a table based on their values.</li>
+<li><code>dplyr::arrange()</code> changes the ordering of the rows.</li>
+<li><code>dplyr::mutate()</code> adds new columns that are functions of existing columns</li>
+<li><code>dplyr::summarize()</code> reduces/aggregates multiple rows down to a single summary.</li>
+</ul>
+<p>If you add <code>join</code> and <code>grouping</code> actions to this list, then 98% of everything you want to do is a combination of the above actions.</p>
+<p>For example, the <code>count</code> function that we encountered in the previous part, is really grouped summarize action:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(iris, Species, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Species  n
+1     setosa 50
+2 versicolor 50
+3  virginica 50</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.by =</span> Species,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obs =</span> <span class="fu">n</span>()</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>n_obs)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-4" data-code-annotation="1">Aggregate (summarize) the data in iris by species</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="3" data-code-cell="annotated-cell-4" data-code-annotation="2">Compute the number of obs (in a fyear group) and call that column “n_obs”</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="5" data-code-cell="annotated-cell-4" data-code-annotation="3">Sort the resulting tibble in descending order (the ‘-’) of n_obs</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Species n_obs
+1     setosa    50
+2 versicolor    50
+3  virginica    50</code></pre>
+</div>
+</div>
+</section>
+<section id="summarizing-data" class="level2">
+<h2 class="anchored" data-anchor-id="summarizing-data">Summarizing data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_Petal.Width =</span> <span class="fu">mean</span>(Petal.Width),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obs =</span> <span class="fu">n</span>(),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">stdev_Petal.Width =</span> <span class="fu">sd</span>(Petal.Width)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  mean_Petal.Width n_obs stdev_Petal.Width
+1         1.199333   150         0.7622377</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>( <span class="at">.by =</span> Species,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_Petal.Width =</span> <span class="fu">mean</span>(Petal.Width, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">stdev_Petal.Width =</span> <span class="fu">sd</span>(Petal.Width, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_miss_Petal.Width =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(Petal.Width))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Species mean_Petal.Width stdev_Petal.Width n_miss_Petal.Width
+1     setosa            0.246         0.1053856                  0
+2 versicolor            1.326         0.1977527                  0
+3  virginica            2.026         0.2746501                  0</code></pre>
+</div>
+</div>
+</section>
+<section id="picking-up-from-part-1" class="level2">
+<h2 class="anchored" data-anchor-id="picking-up-from-part-1">Picking up from Part 1</h2>
+<p>Let us load the data from previous chapter</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ccm <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/ccm-unique.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will also use a second set of data this time. This is monthly stock return data from CRSP.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>crsp_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/crsp-raw-2023-07-08-csv.zip"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># making all column names lowercase:</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(crsp_raw) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">colnames</span>(crsp_raw))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is how the raw returns data looks like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(crsp_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,800,162
+Columns: 13
+$ permno   &lt;dbl&gt; 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000…
+$ date     &lt;date&gt; 1985-12-31, 1986-01-31, 1986-02-28, 1986-03-31, 1986-04-30, …
+$ shrcd    &lt;dbl&gt; NA, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1…
+$ exchcd   &lt;dbl&gt; NA, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, NA,…
+$ shrcls   &lt;chr&gt; NA, "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A…
+$ primexch &lt;chr&gt; NA, "Q", "Q", "Q", "Q", "Q", "Q", "Q", "Q", "Q", "Q", "Q", "Q…
+$ hexcd    &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2…
+$ dlstcd   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ dlret    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ prc      &lt;dbl&gt; NA, -4.37500, -3.25000, -4.43750, -4.00000, -3.10938, -3.0937…
+$ ret      &lt;chr&gt; NA, "C", "-0.257143", "0.365385", "-0.098592", "-0.222656", "…
+$ shrout   &lt;dbl&gt; NA, 3680, 3680, 3680, 3793, 3793, 3793, 3793, 3793, 3793, 384…
+$ vwretd   &lt;dbl&gt; 0.043061, 0.009830, 0.072501, 0.053887, -0.007903, 0.050847, …</code></pre>
+</div>
+</div>
+</section>
+<section id="cleaning-return-variables" class="level2">
+<h2 class="anchored" data-anchor-id="cleaning-return-variables">Cleaning return variables</h2>
+<p>To generate the return variables, we first need to do some filtering. We only want common shares and only shares listed on the the three biggest US exchanges</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>crsp <span class="ot">&lt;-</span> crsp_raw <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    shrcd <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">11</span>),  <span class="co"># restrict to common ordinary shares</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    exchcd <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)  <span class="co"># 1,2, and 3 are NSYE, AMEX, NASDAQ</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>shrcd, <span class="sc">-</span>primexch, <span class="sc">-</span>hexcd, <span class="sc">-</span>exchcd) <span class="sc">|&gt;</span> </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(permno, date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output of <code>glimpse</code> above also showed you that two columns we need next (monthly returns <code>ret</code> and delisting returns <code>dlret</code>) contain a weird mix of character and number values. The character values encode some situations in a month, that we do not care about right now. We will set these values to missing so that we can turn both columns into numeric columns. We use an <code>dplyr::if_else</code> function to do so. It has the form: “if the if condition is true, use this value, else use that value”. We then convert the result into a numeric column using <code>as.numeric</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>crsp <span class="ot">&lt;-</span> crsp <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ret =</span> <span class="fu">as.numeric</span>(<span class="fu">if_else</span>(ret <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"B"</span>, <span class="st">"C"</span>), <span class="cn">NA</span>, ret)),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">dlret =</span> <span class="fu">as.numeric</span>(<span class="fu">if_else</span>(dlret <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"S"</span>, <span class="st">"T"</span>, <span class="st">"P"</span>), <span class="cn">NA</span>, dlret)),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we need to adjust the monthly returns (<code>ret</code>) column. When a stock gets delisted, the delisting return is not fully incorporated in that return variable. We thus need to adjust. We do so by adding a delisting return whenever it is available (<code>is.na(dlret) == FALSE</code>) and the monthly return is not (<code>is.na(ret) == TRUE</code>). This is a bit of a quick-and-dirty way of adjusting, but suffices for our purposes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>crsp <span class="ot">&lt;-</span> crsp <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ret =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(ret) <span class="sc">==</span> <span class="cn">TRUE</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(dlret) <span class="sc">==</span> <span class="cn">FALSE</span>, dlret, ret)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>dlret, <span class="sc">-</span>dlstcd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="generating-buy-and-hold-returns" class="level2">
+<h2 class="anchored" data-anchor-id="generating-buy-and-hold-returns">Generating buy-and-hold-returns</h2>
+<p>With proper numeric monthly return date, we can now proceed to generate a yearly return measure that we can use with our yearly financial statement data. Remember, the return data is monthly data. So, our unit of observation in this data set is at the security-month level. In our compustat dataset, the unit of observation is the firm-fiscal year. We ultimately want to compare yearly changes in a firm profitability with a firm’s stock return over the same period. So we need a “yearly” return. We are going to compute that now. We are going to compute an excess buy-and-hold return:</p>
+<p><span class="math display">\[EBHR_{i,t}^h = \prod_{k=1}^h (1+Ret_{i,t+k}) - \prod_{k=1}^h (1+MktRet_{t+k})\]</span> This is the return from buying a stock at the end of <span class="math inline">\(t\)</span> and holding it for <span class="math inline">\(h\)</span> months minus the return from a benchmark portfolio (usually some kind of market portfolio or similar).</p>
+<p>To compute this variable, we need to compute leads and lags of our <code>ret</code> variable–a “lag” of 1 meaning the return of the month before, a lead of 1 meaning the next month’s return and so on. We will use <code>collapse::flag</code>for this purpose. The following code creates lag 1 and 2 and lead 1 and 2 for the returns column and returns everything in a new matrix (a minus number–as in -2–stands for leads instead of lags):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">flag</span>(crsp<span class="sc">$</span>ret, <span class="at">n =</span> <span class="sc">-</span><span class="dv">2</span><span class="sc">:</span><span class="dv">2</span>), <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             F2        F1        --        L1        L2
+ [1,]  0.365385 -0.257143        NA        NA        NA
+ [2,] -0.098592  0.365385 -0.257143        NA        NA
+ [3,] -0.222656 -0.098592  0.365385 -0.257143        NA
+ [4,] -0.005025 -0.222656 -0.098592  0.365385 -0.257143
+ [5,] -0.080808 -0.005025 -0.222656 -0.098592  0.365385
+ [6,] -0.615385 -0.080808 -0.005025 -0.222656 -0.098592
+ [7,] -0.057143 -0.615385 -0.080808 -0.005025 -0.222656
+ [8,] -0.242424 -0.057143 -0.615385 -0.080808 -0.005025
+ [9,]  0.060000 -0.242424 -0.057143 -0.615385 -0.080808
+[10,] -0.377358  0.060000 -0.242424 -0.057143 -0.615385
+[11,] -0.212121 -0.377358  0.060000 -0.242424 -0.057143
+[12,]  0.000000 -0.212121 -0.377358  0.060000 -0.242424
+[13,] -0.384615  0.000000 -0.212121 -0.377358  0.060000
+[14,] -0.062500 -0.384615  0.000000 -0.212121 -0.377358
+[15,] -0.066667 -0.062500 -0.384615  0.000000 -0.212121
+[16,]  0.000000 -0.066667 -0.062500 -0.384615  0.000000
+[17,]        NA  0.000000 -0.066667 -0.062500 -0.384615
+[18,]  0.020408        NA  0.000000 -0.066667 -0.062500
+[19,]  0.025200  0.020408        NA  0.000000 -0.066667
+[20,]  0.009901  0.025200  0.020408        NA  0.000000
+[21,] -0.009804  0.009901  0.025200  0.020408        NA
+[22,] -0.013069 -0.009804  0.009901  0.025200  0.020408
+[23,] -0.010204 -0.013069 -0.009804  0.009901  0.025200
+[24,]  0.072165 -0.010204 -0.013069 -0.009804  0.009901</code></pre>
+</div>
+</div>
+<p>Where <code>F</code> stands for “Forward” and <code>L</code> stands for “Lag”.</p>
+<p>We cannot use the function as is however. There are two things to consider with panel data when computing leads and lags. The first is that one has to be careful not to “lag into” the previous firm. Look at the following excerpt of the data to see the issue. The <code>lag_ret</code> column pushes a return from permno 10001 (from 2017) into the next security 10002.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>crsp <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(permno, date, ret) <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lag_ret =</span> <span class="fu">flag</span>(ret, <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">395</span><span class="sc">:</span><span class="dv">405</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11 × 4
+   permno date            ret  lag_ret
+    &lt;dbl&gt; &lt;date&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+ 1  10001 2017-05-31  0.016   -0.0157 
+ 2  10001 2017-06-30  0.0236   0.016  
+ 3  10001 2017-07-31  0.00193  0.0236 
+ 4  10001 2017-08-31  0.0116   0.00193
+ 5  10002 1986-01-31 NA        0.0116 
+ 6  10002 1986-02-28  0.140   NA      
+ 7  10002 1986-03-31  0.0708   0.140  
+ 8  10002 1986-04-30  0.0529   0.0708 
+ 9  10002 1986-05-30 -0.0209   0.0529 
+10  10002 1986-06-30 -0.132   -0.0209 
+11  10002 1986-07-31  0.0493  -0.132  </code></pre>
+</div>
+</div>
+<p>The second issue is if that there might be implicit missing months in the data. For example if one row is February 1987 and the next row is April 1987 instead of March.</p>
+<p>Both of these issues can be addressed by making the lagging function aware of the panel structure. It is not by default. To do so, we first create a year-month column</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>crsp<span class="sc">$</span>yrmon <span class="ot">&lt;-</span> <span class="fu">as_yearmon</span>(crsp<span class="sc">$</span>date)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(crsp<span class="sc">$</span>yrmon)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Jan 1986" "Feb 1986" "Mar 1986" "Apr 1986" "May 1986" "Jun 1986"</code></pre>
+</div>
+</div>
+<p>Next we use <code>collapse::findex_by</code> to make functions like <code>flag</code> aware of the panel structure (permno-yearmonth).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-16"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-16-1"><a href="#annotated-cell-16-1" aria-hidden="true" tabindex="-1"></a>crsp <span class="ot">&lt;-</span> crsp <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-16-2" class="code-annotation-target"><a href="#annotated-cell-16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yrmon =</span> <span class="fu">as_yearmon</span>(date)) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-16-3" class="code-annotation-target"><a href="#annotated-cell-16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">findex_by</span>(permno, yrmon) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-16-4"><a href="#annotated-cell-16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-16-5" class="code-annotation-target"><a href="#annotated-cell-16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_ret =</span> <span class="fu">log</span>(ret <span class="sc">+</span> <span class="dv">1</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-16-6" class="code-annotation-target"><a href="#annotated-cell-16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">BH12M_log_ret =</span> <span class="fu">rowSums</span>(<span class="fu">flag</span>(log_ret, <span class="at">n =</span> <span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">8</span>)),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-16-7" class="code-annotation-target"><a href="#annotated-cell-16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">BHR12M =</span> <span class="fu">exp</span>(BH12M_log_ret) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-16-8" class="code-annotation-target"><a href="#annotated-cell-16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_mret =</span> <span class="fu">log</span>(vwretd <span class="sc">+</span> <span class="dv">1</span>),</span>
+<span id="annotated-cell-16-9"><a href="#annotated-cell-16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">BH12M_log_mret =</span> <span class="fu">rowSums</span>(<span class="fu">flag</span>(log_mret, <span class="at">n =</span> <span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">8</span>)),</span>
+<span id="annotated-cell-16-10"><a href="#annotated-cell-16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">BH12M_mret =</span> <span class="fu">exp</span>(BH12M_log_mret) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-16-11" class="code-annotation-target"><a href="#annotated-cell-16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">EBHR12M =</span> BHR12M <span class="sc">-</span> BH12M_mret</span>
+<span id="annotated-cell-16-12"><a href="#annotated-cell-16-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="8" onclick="event.preventDefault();">8</a><span id="annotated-cell-16-13" class="code-annotation-target"><a href="#annotated-cell-16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unindex</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-16-14"><a href="#annotated-cell-16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>log_ret, <span class="sc">-</span>log_mret, <span class="sc">-</span>BH12M_log_ret, <span class="sc">-</span>BH12M_log_mret, BH12M_mret)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-16" data-code-annotation="1">Create a {zoo} year-month variable</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="3" data-code-cell="annotated-cell-16" data-code-annotation="2">Create panel indices. permno as the unit index and yrmon as the time index. Useful for functions such as <code>flag</code> to use</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="5" data-code-cell="annotated-cell-16" data-code-annotation="3">Create a log return</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-lines="6" data-code-cell="annotated-cell-16" data-code-annotation="4">Key part: <code>flag</code> creates a matrix of leads and lags from 8 months before the current months to 3 months after the current month (e.g, if we are in December from April of the current year to March of the next year). Then <code>rowSums</code> sums up all the values in a given row of the matrix to one value. This is a log buy-and-hold return.</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-lines="7" data-code-cell="annotated-cell-16" data-code-annotation="5">Exponentiate to turn the log BHR return into a normal gross return and subtract one to get make it a net return</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-lines="8,9,10" data-code-cell="annotated-cell-16" data-code-annotation="6">Repeat the buy-and-hold return computation for the value-weighted market return</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-lines="11" data-code-cell="annotated-cell-16" data-code-annotation="7">Create the excess buy-and-hold return EBHR by subtracting the market BHR from the stock’s BHR</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-lines="13" data-code-cell="annotated-cell-16" data-code-annotation="8">Remove the panel index again, as we do not need it anymore</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Let’s look at the differences in raw returns and buy-and-hold returns, just so that you can get a feeling for the differences in magnitude and the variation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>crsp <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ret, BHR12M, EBHR12M) <span class="sc">|&gt;</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">descr</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset: EBHR12M, 3 Variables, N = 2674972
+--------------------------------------------------------------------------------
+ret (numeric): 
+Statistics (1% NAs)
+         N   Ndist  Mean    SD  Min  Max  Skew    Kurt
+  2'648249  409862  0.01  0.19   -1   24  7.83  408.86
+Quantiles
+     1%     5%    10%    25%  50%   75%   90%   95%  99%
+  -0.42  -0.24  -0.16  -0.07    0  0.07  0.18  0.27  0.6
+--------------------------------------------------------------------------------
+BHR12M (numeric): 
+Statistics (10.98% NAs)
+         N     Ndist  Mean    SD  Min     Max  Skew    Kurt
+  2'381141  2'364174  0.15  0.83   -1  106.54    14  816.75
+Quantiles
+     1%     5%    10%    25%   50%   75%   90%   95%   99%
+  -0.87  -0.67  -0.52  -0.24  0.05  0.35  0.78  1.21  2.87
+--------------------------------------------------------------------------------
+EBHR12M (numeric): 
+Statistics (10.98% NAs)
+         N     Ndist  Mean    SD    Min     Max   Skew    Kurt
+  2'381141  2'380644  0.02  0.81  -1.63  105.92  14.99  908.41
+Quantiles
+     1%     5%    10%    25%    50%   75%  90%   95%   99%
+  -0.99  -0.75  -0.61  -0.34  -0.07  0.21  0.6  1.02  2.64
+--------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</section>
+<section id="merging-compustat-and-crsp-data" class="level2">
+<h2 class="anchored" data-anchor-id="merging-compustat-and-crsp-data">Merging Compustat and CRSP data</h2>
+<p>We now get to another important and common task. Merging–or joining–data from different sources. In our case, we need to join the our financial data from Computstat to the 12-month buy and hold returns we just computed. For that purpose, we quickly create a data frame that contains only the return data we want to merge to financial data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>crsp_join <span class="ot">&lt;-</span> crsp <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(permno, yrmon, BHR12M, EBHR12M) <span class="sc">|&gt;</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We join via what is called a <em>left join</em>. Left joins keep all rows from the “left” table/data frame and join all rows from the “right” table/data frame for which it finds matching keys. In our case the keys are the permno security identifier to identify the firm, and the year month of the fiscal year end. All rows in the left table for which we do not find a match in the right table are filled with missings for the columns BHR12M and EBHR12M. This is the syntax.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-19"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-19-1"><a href="#annotated-cell-19-1" aria-hidden="true" tabindex="-1"></a>smple_raw <span class="ot">&lt;-</span> ccm <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-19-2" class="code-annotation-target"><a href="#annotated-cell-19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yrmon =</span> <span class="fu">as_yearmon</span>(datadate)) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-19-3" class="code-annotation-target"><a href="#annotated-cell-19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(crsp_join, <span class="fu">join_by</span>(permno, yrmon))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-19" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-19" data-code-annotation="1">Create an corresponding {zoo} year-month variable from the fiscal year-end date column. Need this to join the two tables.</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="3" data-code-cell="annotated-cell-19" data-code-annotation="2">Left-join the resulting data frame to crsp_join by the keys permno and yrmon (two columns with identical names that need to be present in both tables/data frames)</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Let us check how many matches we had using <code>collapse::fnobs</code>, which shows the number of non-missing observations per column</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fnobs</span>(smple_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   gvkey linkprim     liid linktype   permno datadate    fyear      tic 
+  239192   239192   239192   239192   239192   239192   239191   239192 
+   cusip     conm    curcd      fyr       at      ceq      che      dlc 
+  239192   239192   239191   239191   218211   218050   217634   217255 
+    dltt       ib    oiadp     sale    exchg   costat      fic   priusa 
+  217206   217787   217229   217266   239192   239192   239192   239192 
+     sic    yrmon   BHR12M  EBHR12M 
+  239192   239192   187990   187990 </code></pre>
+</div>
+</div>
+<p>We had 239,192 observations in the compustat file and found a matching permno x yrmon combination 187,990 cases in the crsp_join file.</p>
+<p>We are not dropping missing values just yet. We first want to compute the other variables.</p>
+<p>We also want to double-check that we still have unique firm-fiscal-year combinations after the merge.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>smple_raw <span class="sc">|&gt;</span> <span class="fu">count</span>(gvkey, fyear) <span class="sc">|&gt;</span> <span class="fu">count</span>(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Storing counts in `nn`, as `n` already present in input
+ℹ Use `name = "new_name"` to pick a new name.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+      n     nn
+  &lt;int&gt;  &lt;int&gt;
+1     1 239192</code></pre>
+</div>
+</div>
+<p>Looks good. We only have gvkey x fyear combinations that occur exactly once.</p>
+</section>
+<section id="generating-changes-in-return-on-capital-employed" class="level2">
+<h2 class="anchored" data-anchor-id="generating-changes-in-return-on-capital-employed">Generating changes in return on capital employed</h2>
+<p>The second to last step in getting the data ready for our analysis is creating the change in return on capital employed (ROCE). For simplicity, we define capital employed (CE) as equity (ceq) plus debt (dltt + dlc) minus cash and cash equivalents (che). We use operating income after depreciation (oiadp) as the numerator. Because we are dealing with a panel we have to use <code>findex_by</code> again to make the <code>flag</code> function aware of the panel structure</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-22"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-22-1"><a href="#annotated-cell-22-1" aria-hidden="true" tabindex="-1"></a>smple_raw <span class="ot">&lt;-</span> </span>
+<span id="annotated-cell-22-2"><a href="#annotated-cell-22-2" aria-hidden="true" tabindex="-1"></a>  smple_raw <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-22-3" class="code-annotation-target"><a href="#annotated-cell-22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(fyear) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-22-4"><a href="#annotated-cell-22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(gvkey, fyear) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-22-5" class="code-annotation-target"><a href="#annotated-cell-22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">findex_by</span>(gvkey, fyear) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-22-6"><a href="#annotated-cell-22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-22-7" class="code-annotation-target"><a href="#annotated-cell-22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dltt =</span> <span class="fu">replace_NA</span>(dltt, <span class="dv">0</span>),</span>
+<span id="annotated-cell-22-8"><a href="#annotated-cell-22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">dlc =</span> <span class="fu">replace_NA</span>(dlc, <span class="dv">0</span>),</span>
+<span id="annotated-cell-22-9"><a href="#annotated-cell-22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">che =</span> <span class="fu">replace_NA</span>(che, <span class="dv">0</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-22-10" class="code-annotation-target"><a href="#annotated-cell-22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">cap_employed =</span> ceq <span class="sc">+</span> dltt <span class="sc">+</span> dlc <span class="sc">-</span> che,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-22-11" class="code-annotation-target"><a href="#annotated-cell-22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">roce =</span> oiadp <span class="sc">/</span> ((cap_employed <span class="sc">+</span> <span class="fu">flag</span>(cap_employed, <span class="dv">1</span>))<span class="sc">/</span><span class="dv">2</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-22-12" class="code-annotation-target"><a href="#annotated-cell-22-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">ch_roce =</span> roce <span class="sc">-</span> <span class="fu">flag</span>(roce, <span class="dv">1</span>)</span>
+<span id="annotated-cell-22-13"><a href="#annotated-cell-22-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-22-14" class="code-annotation-target"><a href="#annotated-cell-22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unindex</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-22" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="3" data-code-cell="annotated-cell-22" data-code-annotation="1">Drop all rows with a missing fiscal year value</span>
+</dd>
+<dt data-target-cell="annotated-cell-22" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="5" data-code-cell="annotated-cell-22" data-code-annotation="2">Create panel indices. gvkey as the unit index and fyear as the time index. Mainly useful for functions such as <code>flag</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-22" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="7,8,9" data-code-cell="annotated-cell-22" data-code-annotation="3">Some variables have missings that are more likely to be zeros. (e.g., if debt is missing, it likely does not have debt). `replace_NA`` replaces NA values with a chosen value (0 in this case)</span>
+</dd>
+<dt data-target-cell="annotated-cell-22" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-lines="10" data-code-cell="annotated-cell-22" data-code-annotation="4">Compute capital employed as explained above</span>
+</dd>
+<dt data-target-cell="annotated-cell-22" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-lines="11" data-code-cell="annotated-cell-22" data-code-annotation="5">Compute ROCE using average capital employed over the fiscal year</span>
+</dd>
+<dt data-target-cell="annotated-cell-22" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-lines="12" data-code-cell="annotated-cell-22" data-code-annotation="6">Compute a simple change in ROCE. We chose not to scale the change</span>
+</dd>
+<dt data-target-cell="annotated-cell-22" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-lines="14" data-code-cell="annotated-cell-22" data-code-annotation="7">Remove the panel index again, as we do not need it anymore</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="final-filtering" class="level2">
+<h2 class="anchored" data-anchor-id="final-filtering">Final filtering</h2>
+<p>The last step is to clean the data a bit more. We could have done this before, but it is usually best to do this in the end when all variables are computed (because of the panel structure, you do not wanna delete rows in the middle of computations that might involve leads and lags). Small Compustat firms are often full of outliers (e.g., negative equity and huge debt.) We want to look at the relation for “reasonably normal” companies. So we filter on having a minimum size in terms of total assets and revenues as well as slightly positive equity. We then drop all missing values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>smple0 <span class="ot">&lt;-</span> smple_raw <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gvkey, fyear, conm, yrmon, roce, ch_roce, EBHR12M, sic, sale, at, ceq) <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    at <span class="sc">&gt;</span> <span class="dv">50</span>, </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    sale <span class="sc">&gt;</span> <span class="dv">50</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    ceq <span class="sc">&gt;</span> <span class="dv">1</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us look at the distribution of our main variables of interest</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>smple0 <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ch_roce, EBHR12M) <span class="sc">|&gt;</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">descr</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset: EBHR12M, 2 Variables, N = 102823
+--------------------------------------------------------------------------------
+ch_roce (numeric): Operating Income After Depreciation
+Statistics
+       N   Ndist   Mean     SD       Min      Max    Skew      Kurt
+  102823  102823  -0.04  22.21  -4591.53  1913.35  -84.58  19881.56
+Quantiles
+     1%     5%    10%    25%  50%   75%   90%   95%   99%
+  -2.09  -0.31  -0.16  -0.05   -0  0.03  0.12  0.24  2.04
+--------------------------------------------------------------------------------
+EBHR12M (numeric): 
+Statistics
+       N   Ndist  Mean    SD    Min    Max  Skew    Kurt
+  102823  102823  0.05  0.66  -1.45  34.84  9.82  281.43
+Quantiles
+     1%    5%    10%    25%    50%   75%   90%   95%   99%
+  -0.84  -0.6  -0.47  -0.25  -0.03  0.21  0.55  0.89  2.26
+--------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>We can still see huge outliers. You can explore the reasons for those at your own leasure. You will find things like firm-years with negative capital employed heavily distorting the ROCE and similar things. We could (and maybe should) spend more time cleaning those cases. An alternative you often see is to just trim outliers, assuming they are all irregular patterns. We will do this now too for expediency. We will remove the bottom and top 1% of change in ROCE observations:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>smple <span class="ot">&lt;-</span> smple0 <span class="sc">|&gt;</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    ch_roce <span class="sc">&lt;</span> <span class="fu">quantile</span>(ch_roce, <span class="fl">0.99</span>), </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    ch_roce <span class="sc">&gt;</span> <span class="fu">quantile</span>(ch_roce, <span class="fl">0.01</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With returns it is more likely that large outliers are features of the data and not irregular outliers. BHR returns can be very heavily be influenced by a few large values however. Still, we don’t filter the BHR returns for now.</p>
+</section>
+<section id="visualizing-the-bhr-roce-relation" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-the-bhr-roce-relation">Visualizing the BHR-ROCE relation</h2>
+<p>To motivate the plot we are about to make, we will start with a useless plot:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>smple <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ch_roce, <span class="at">y =</span> EBHR12M)) <span class="sc">+</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">shape =</span> <span class="dv">21</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="transform_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is a prime example of over-plotting. Too many points on top of each other. Even if we would make them partially transparent, there is no chance you will see a pattern between changes in ROCE and excess buy-and-hold returns in this mess. You cannot even see where most of the points are.</p>
+<p>Our workaround to uncovering structure is twofold. First we color the points according to where most of the points are starting from the center. Second, we draw a flexible trendline through the point cloud.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-27"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-27-1" class="code-annotation-target"><a href="#annotated-cell-27-1" aria-hidden="true" tabindex="-1"></a>fig2 <span class="ot">&lt;-</span> smple <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-27-2" class="code-annotation-target"><a href="#annotated-cell-27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ch_roce, <span class="at">y =</span> EBHR12M)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-27-3" class="code-annotation-target"><a href="#annotated-cell-27-3" aria-hidden="true" tabindex="-1"></a>  ggdensity<span class="sc">::</span><span class="fu">geom_hdr_points</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">shape =</span> <span class="dv">21</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-27-4" class="code-annotation-target"><a href="#annotated-cell-27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-27-5"><a href="#annotated-cell-27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-27-6" class="code-annotation-target"><a href="#annotated-cell-27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="annotated-cell-27-7"><a href="#annotated-cell-27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-27-8" class="code-annotation-target"><a href="#annotated-cell-27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(</span>
+<span id="annotated-cell-27-9"><a href="#annotated-cell-27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">'gam'</span>,</span>
+<span id="annotated-cell-27-10"><a href="#annotated-cell-27-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">s</span>(x, <span class="at">bs =</span> <span class="st">"cs"</span>),</span>
+<span id="annotated-cell-27-11"><a href="#annotated-cell-27-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"tan2"</span>,</span>
+<span id="annotated-cell-27-12"><a href="#annotated-cell-27-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">1.5</span>,</span>
+<span id="annotated-cell-27-13"><a href="#annotated-cell-27-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">FALSE</span></span>
+<span id="annotated-cell-27-14"><a href="#annotated-cell-27-14" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-27-15" class="code-annotation-target"><a href="#annotated-cell-27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">+</span><span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">+</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="8" onclick="event.preventDefault();">8</a><span id="annotated-cell-27-16" class="code-annotation-target"><a href="#annotated-cell-27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="9" onclick="event.preventDefault();">9</a><span id="annotated-cell-27-17" class="code-annotation-target"><a href="#annotated-cell-27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-27" data-target-annotation="10" onclick="event.preventDefault();">10</a><span id="annotated-cell-27-18" class="code-annotation-target"><a href="#annotated-cell-27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="annotated-cell-27-19"><a href="#annotated-cell-27-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Contemporaneous excess buy-and-hold return"</span>,</span>
+<span id="annotated-cell-27-20"><a href="#annotated-cell-27-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Yearly change in return on capital employed"</span>,</span>
+<span id="annotated-cell-27-21"><a href="#annotated-cell-27-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"The relation between profitability changes and returns is S-shaped"</span>,</span>
+<span id="annotated-cell-27-22"><a href="#annotated-cell-27-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Compustat North America and CRSP monthly stock data (1980 - 2022)"</span></span>
+<span id="annotated-cell-27-23"><a href="#annotated-cell-27-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-27-24"><a href="#annotated-cell-27-24" aria-hidden="true" tabindex="-1"></a>fig2</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-27" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1" data-code-cell="annotated-cell-27" data-code-annotation="1">Store the result of the computation into variable called <code>fig2</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-27" data-code-annotation="2">Create a plotting canvas with the x axis being mapped to ch_roce and the y axis to EBHR12M</span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="3" data-code-cell="annotated-cell-27" data-code-annotation="3">Draw a point cloud colored by high density regions (hdrs). The size argument controls the size of the points, and shape = 21 makes them open points</span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-lines="4,5" data-code-cell="annotated-cell-27" data-code-annotation="4">Add a guiding vertical and a horizontal line that intersects at 0. To make the symmetry of S-shape even more obvious</span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-lines="6,7" data-code-cell="annotated-cell-27" data-code-annotation="5">Reduce the padding around the x and y axes to zero. This way it becomes a bit more obvious that we “zoom” into the data</span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-lines="8,9,10,11,12,13,14" data-code-cell="annotated-cell-27" data-code-annotation="6"><code>geom_smooth</code> generates a smooth trendline. We need to specify a method for drawing this and we choose GAM (general additive model) with a cubic spline formula.</span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-lines="15" data-code-cell="annotated-cell-27" data-code-annotation="7"><code>coord_cartesian</code> allows us to “zoom” into the data without throwing away points. This is important as we want <code>geom_smooth</code> to draw the trendline taking into account <em>all</em> points, not only the ones we see into the zoomed-in plot</span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-lines="16" data-code-cell="annotated-cell-27" data-code-annotation="8">Switch the standard grey theme to a lighter theme</span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="9">9</dt>
+<dd>
+<span data-code-lines="17" data-code-cell="annotated-cell-27" data-code-annotation="9">Remove some unnecessary gridlines</span>
+</dd>
+<dt data-target-cell="annotated-cell-27" data-target-annotation="10">10</dt>
+<dd>
+<span data-code-lines="18" data-code-cell="annotated-cell-27" data-code-annotation="10">Add annotations to finalize the plot</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="transform_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Just to make sure our results are not sensitive to extreme returns we can re-draw the graph after filtering out extreme EBHR12M values:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>smple <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    EBHR12M <span class="sc">&lt;</span> <span class="fu">quantile</span>(EBHR12M, <span class="fl">0.99</span>),</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    EBHR12M <span class="sc">&gt;</span> <span class="fu">quantile</span>(EBHR12M, <span class="fl">0.01</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ch_roce, <span class="at">y =</span> EBHR12M)) <span class="sc">+</span> </span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  ggdensity<span class="sc">::</span><span class="fu">geom_hdr_points</span>(<span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">shape =</span> <span class="dv">21</span>) <span class="sc">+</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">'gam'</span>, </span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">s</span>(x, <span class="at">bs =</span> <span class="st">"cs"</span>),</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"tan2"</span>,</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">1.5</span>,</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">FALSE</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span> </span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">+</span><span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">+</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Contemporaneous excess buy-and-hold return"</span>,</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Yearly change in return on capital employed"</span>,</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"The relation between profitability changes and returns is S-shaped"</span>,</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Compustat North America and CRSP monthly stock data (1980 - 2022)</span><span class="sc">\n</span><span class="st">Extreme returns were removed from this figure."</span></span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="transform_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The S-shape is still there. So let’s save the final result of our efforts. The graph clearly shows a non-linear association between yearly changes in firm profitability and buy-and-hold returns over the same period as the change. This can have many implications of course. It might be that larger changes are less “persistent”, investors expect them to reverse. It might be that larger changes are more likely to be anticipated. Etc.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"chroce-bhrets.png"</span>, fig2, <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">units =</span> <span class="st">"in"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
