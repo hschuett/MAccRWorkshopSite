@@ -1,0 +1,400 @@
+---
+title: "Part 2"
+---
+## Summary
+
+In this part we will create a sample to investigate the relation between yearly changes in firm profitability and contemporaneous returns. We will find that the relation is far from simple. In addition to being the center of many interesting questions, this analysis is a nice exercise. It allows us to go into more details on how to transform data--especially how to prepare panel data for analyses. We will compute more involved variables, such as buy-and-hold-returns. We will also learn how to combine data in multiple tables. Finally, we will discuss a few presentation design principles that are important for presenting results. The final result of our analysis will be the following plot: 
+
+![ ](chroce-bhrets.png){width=5in fig-align="center"}
+
+## Loading packages
+
+```{r}
+#| message: false
+library(collapse)
+library(tidyverse)
+library(ggdensity)
+as_yearmon <- zoo::as.yearmon  # <1>
+```
+1. This statement is only attaching one function `as.yearmon` from the {zoo} package.
+
+## The grammar of data manipulation
+
+R---and especially newer packages included in the tidyverse package ecosystem---have very expressive data verbs that make code readable. Most data transformation steps concerning data tables are really a combination of a few basic actions. The most common are listed below with their names as used in R's [dplyr](https://dplyr.tidyverse.org/) package. We will use these in what follows to transform the raw compustat data into the variables we need for later analysis.
+
+![The basic grammar of data manipulation. Image [source](http://perso.ens-lyon.fr/lise.vaudor/dplyr/)](imgs/dplyr_schema.png){#fig-dplyr height="350px"}
+
+- `dplyr::select()` picks columns of a table based on their names.
+- `dplyr::filter()` picks rows of a table based on their values.
+- `dplyr::arrange()` changes the ordering of the rows.
+- `dplyr::mutate()` adds new columns that are functions of existing columns
+- `dplyr::summarize()` reduces/aggregates multiple rows down to a single summary.
+
+If you add `join` and `grouping` actions to this list, then 98% of everything you want to do is a combination of the above actions. 
+
+For example, the `count` function that we encountered in the previous part, is really grouped summarize action: 
+
+```{r}
+head(iris)
+```
+
+
+```{r}
+count(iris, Species, sort = TRUE)
+```
+
+```{r}
+iris |> 
+  summarize(.by = Species,   #<1>
+    n_obs = n()              #<2>
+  ) |> 
+  arrange(-n_obs)            #<3>
+```
+1. Aggregate (summarize) the data in iris by species
+2. Compute the number of obs (in a fyear group) and call that column "n_obs"
+3. Sort the resulting tibble in descending order (the '-') of n_obs
+
+
+## Summarizing data
+
+```{r}
+iris |> 
+  summarize(
+    mean_Petal.Width = mean(Petal.Width),
+    n_obs = n(),
+    stdev_Petal.Width = sd(Petal.Width)
+  )
+```
+
+```{r}
+iris |> 
+  summarize( .by = Species,
+    mean_Petal.Width = mean(Petal.Width, na.rm = TRUE),
+    stdev_Petal.Width = sd(Petal.Width, na.rm = TRUE),
+    n_miss_Petal.Width = sum(is.na(Petal.Width))
+  )
+```
+
+
+
+## Picking up from Part 1
+
+Let us load the data from previous chapter
+
+```{r}
+ccm <- readRDS("data/ccm-unique.rds")
+```
+
+We will also use a second set of data this time. This is monthly stock return data from CRSP.
+
+```{r}
+crsp_raw <- read_csv("data/crsp-raw-2023-07-08-csv.zip", show_col_types = FALSE)
+# making all column names lowercase:
+colnames(crsp_raw) <- tolower(colnames(crsp_raw))
+```
+
+Here is how the raw returns data looks like:
+
+```{r}
+glimpse(crsp_raw)
+```
+
+
+## Cleaning return variables
+
+To generate the return variables, we first need to do some filtering. We only want common shares and only shares listed on the the three biggest US exchanges
+
+```{r}
+crsp <- crsp_raw |> 
+  filter(
+    shrcd %in% c(10, 11),  # restrict to common ordinary shares
+    exchcd %in% c(1, 2, 3)  # 1,2, and 3 are NSYE, AMEX, NASDAQ
+  ) |> 
+  select(-shrcd, -primexch, -hexcd, -exchcd) |> 
+  arrange(permno, date)
+```
+
+The output of `glimpse` above also showed you that two columns we need next (monthly returns `ret` and delisting returns `dlret`) contain a weird mix of character and number values. The character values encode some situations in a month, that we do not care about right now. We will set these values to missing so that we can turn both columns into numeric columns. We use an `dplyr::if_else` function to do so. It has the form: "if the if condition is true, use this value, else use that value". We then convert the result into a numeric column using `as.numeric`:
+
+```{r}
+crsp <- crsp |> 
+  mutate(
+    ret = as.numeric(if_else(ret %in% c("B", "C"), NA, ret)),
+    dlret = as.numeric(if_else(dlret %in% c("A", "S", "T", "P"), NA, dlret)),
+  )
+```
+
+Next, we need to adjust the monthly returns (`ret`) column. When a stock gets delisted, the delisting return is not fully incorporated in that return variable. We thus need to adjust. We do so by adding a delisting return whenever it is available (`is.na(dlret) == FALSE`) and the monthly return is not (`is.na(ret) == TRUE`). This is a bit of a quick-and-dirty way of adjusting, but suffices for our purposes. 
+
+```{r}
+crsp <- crsp |> 
+  mutate(
+    ret = if_else(is.na(ret) == TRUE & is.na(dlret) == FALSE, dlret, ret)
+  ) |> 
+  select(-dlret, -dlstcd)
+```
+
+
+## Generating buy-and-hold-returns
+
+With proper numeric monthly return date, we can now proceed to generate a yearly return measure that we can use with our yearly financial statement data. Remember, the return data is monthly data. So, our unit of observation in this data set is at the security-month level. In our compustat dataset, the unit of observation is the firm-fiscal year. We ultimately want to compare yearly changes in a firm profitability with a firm's stock return over the same period. So we need a "yearly" return. We are going to compute that now. We are going to compute an excess buy-and-hold return: 
+
+$$EBHR_{i,t}^h = \prod_{k=1}^h (1+Ret_{i,t+k}) - \prod_{k=1}^h (1+MktRet_{t+k})$$
+This is the return from buying a stock at the end of $t$ and holding it for $h$ months minus the return from a benchmark portfolio (usually some kind of market portfolio or similar). 
+
+To compute this variable, we need to compute leads and lags of our `ret` variable--a "lag" of 1 meaning the return of the month before, a lead of 1 meaning the next month's return and so on. We will use `collapse::flag`for this purpose. The following code creates lag 1 and 2 and lead 1 and 2 for the returns column and returns everything in a new matrix (a minus number--as in -2--stands for leads instead of lags):
+
+```{r}
+head(flag(crsp$ret, n = -2:2), 24)
+```
+Where `F` stands for "Forward" and `L` stands for "Lag". 
+
+We cannot use the function as is however. There are two things to consider with panel data when computing leads and lags. The first is that one has to be careful not to "lag into" the previous firm. Look at the following excerpt of the data to see the issue. The `lag_ret` column pushes a return from permno 10001 (from 2017) into the next security 10002.
+
+```{r}
+crsp |> 
+  select(permno, date, ret) |> 
+  mutate(lag_ret = flag(ret, 1)) |> 
+  slice(395:405)
+```
+
+The second issue is if that there might be implicit missing months in the data. For example if one row is February 1987 and the next row is April 1987 instead of March. 
+
+Both of these issues can be addressed by making the lagging function aware of the panel structure. It is not by default. To do so, we first create a year-month column
+
+```{r}
+crsp$yrmon <- as_yearmon(crsp$date)
+head(crsp$yrmon)
+```
+
+Next we use `collapse::findex_by` to make functions like `flag` aware of the panel structure (permno-yearmonth). 
+
+```{r}
+crsp <- crsp |> 
+  mutate(yrmon = as_yearmon(date)) |>                    # <1>
+  findex_by(permno, yrmon) |>                            # <2>
+  mutate(
+    log_ret = log(ret + 1),                              # <3>
+    BH12M_log_ret = rowSums(flag(log_ret, n = -3:8)),    # <4>
+    BHR12M = exp(BH12M_log_ret) - 1,                     # <5>
+    log_mret = log(vwretd + 1),                          # <6>
+    BH12M_log_mret = rowSums(flag(log_mret, n = -3:8)),  # <6>
+    BH12M_mret = exp(BH12M_log_mret) - 1,                # <6>
+    EBHR12M = BHR12M - BH12M_mret                        # <7>
+  ) |> 
+  unindex() |>                                           # <8>
+  select(-log_ret, -log_mret, -BH12M_log_ret, -BH12M_log_mret, BH12M_mret)
+```
+1. Create a {zoo} year-month variable
+2. Create panel indices. permno as the unit index and yrmon as the time index. Useful for functions such as `flag` to use
+3. Create a log return 
+4. Key part: `flag` creates a matrix of leads and lags from 8 months before the current months to 3 months after the current month (e.g, if we are in December from April of the current year to March of the next year). Then `rowSums` sums up all the values in a given row of the matrix to one value. This is a log buy-and-hold return.
+5. Exponentiate to turn the log BHR return into a normal gross return and subtract  one to get make it a net return
+6. Repeat the buy-and-hold return computation for the value-weighted market return
+7. Create the excess buy-and-hold return EBHR by subtracting the market BHR from the stock's BHR
+8. Remove the panel index again, as we do not need it anymore
+
+
+Let's look at the differences in raw returns and buy-and-hold returns, just so that you can get a feeling for the differences in magnitude and the variation. 
+
+```{r}
+crsp |> 
+  select(ret, BHR12M, EBHR12M) |> 
+  descr()
+```
+
+## Merging Compustat and CRSP data
+
+We now get to another important and common task. Merging--or joining--data from different sources. In our case, we need to join the our financial data from Computstat to the 12-month buy and hold returns we just computed. For that purpose, we quickly create a data frame that contains only the return data we want to merge to financial data.
+
+```{r}
+crsp_join <- crsp |> 
+  select(permno, yrmon, BHR12M, EBHR12M) |> 
+  drop_na()
+```
+
+We join via what is called a *left join*. Left joins keep all rows from the "left" table/data frame and join all rows from the "right" table/data frame for which it finds matching keys. In our case the keys are the permno security identifier to identify the firm, and the year month of the fiscal year end. All rows in the left table for which we do not find a match in the right table are filled with missings for the columns BHR12M and EBHR12M. This is the syntax. 
+
+```{r}
+smple_raw <- ccm |> 
+  mutate(yrmon = as_yearmon(datadate)) |>      #<1>
+  left_join(crsp_join, join_by(permno, yrmon)) #<2>
+```
+1. Create an corresponding {zoo} year-month variable from the fiscal year-end date column. Need this to join the two tables.
+2. Left-join the resulting data frame to crsp_join by the keys permno and yrmon (two columns with identical names that need to be present in both tables/data frames)
+
+Let us check how many matches we had using `collapse::fnobs`, which shows the number of non-missing observations per column
+
+```{r}
+fnobs(smple_raw)
+```
+
+We had 239,192 observations in the compustat file and found a matching permno x yrmon combination 187,990 cases in the crsp_join file. 
+
+We are not dropping missing values just yet. We first want to compute the other variables. 
+
+We also want to double-check that we still have unique firm-fiscal-year combinations after the merge.
+
+```{r}
+smple_raw |> count(gvkey, fyear) |> count(n)
+```
+
+Looks good. We only have gvkey x fyear combinations that occur exactly once.
+
+## Generating changes in return on capital employed
+
+The second to last step in getting the data ready for our analysis is creating the change in return on capital employed (ROCE). For simplicity, we define capital employed (CE) as equity (ceq) plus debt (dltt + dlc) minus cash and cash equivalents (che). We use operating income after depreciation (oiadp) as the numerator. Because we are dealing with a panel we have to use `findex_by` again to make the `flag` function aware of the panel structure
+
+```{r}
+smple_raw <- 
+  smple_raw |> 
+  drop_na(fyear) |>                                              # <1>
+  arrange(gvkey, fyear) |> 
+  findex_by(gvkey, fyear) |>                                     # <2>
+  mutate(
+    dltt = replace_NA(dltt, 0),                                  # <3>
+    dlc = replace_NA(dlc, 0),                                    # <3>
+    che = replace_NA(che, 0),                                    # <3>
+    cap_employed = ceq + dltt + dlc - che,                       # <4>
+    roce = oiadp / ((cap_employed + flag(cap_employed, 1))/2),   # <5>
+    ch_roce = roce - flag(roce, 1)                               # <6>
+  ) |> 
+  unindex()                                                      # <7>
+```
+1. Drop all rows with a missing fiscal year value
+2. Create panel indices. gvkey as the unit index and fyear as the time index. Mainly useful for functions such as `flag`
+3. Some variables have missings that are more likely to be zeros. (e.g., if debt is missing, it likely does not have debt). `replace_NA`` replaces NA values with a chosen value (0 in this case) 
+4. Compute capital employed as explained above
+5. Compute ROCE using average capital employed over the fiscal year
+6. Compute a simple change in ROCE. We chose not to scale the change
+7. Remove the panel index again, as we do not need it anymore
+
+## Final filtering
+
+The last step is to clean the data a bit more. We could have done this before, but it is usually best to do this in the end when all variables are computed (because of the panel structure, you do not wanna delete rows in the middle of computations that might involve leads and lags). Small Compustat firms are often full of outliers (e.g., negative equity and huge debt.) We want to look at the relation for "reasonably normal" companies. So we filter on having a minimum size in terms of total assets and revenues as well as slightly positive equity. We then drop all missing values. 
+
+```{r}
+smple0 <- smple_raw |> 
+  select(gvkey, fyear, conm, yrmon, roce, ch_roce, EBHR12M, sic, sale, at, ceq) |> 
+  filter(
+    at > 50, 
+    sale > 50,
+    ceq > 1
+  ) |> 
+  drop_na()
+```
+
+Let us look at the distribution of our main variables of interest
+
+```{r}
+smple0 |> 
+  select(ch_roce, EBHR12M) |> 
+  descr()
+```
+
+We can still see huge outliers. You can explore the reasons for those at your own leasure. You will find things like firm-years with negative capital employed heavily distorting the ROCE and similar things. We could (and maybe should) spend more time cleaning those cases. An alternative you often see is to just trim outliers, assuming they are all irregular patterns. We will do this now too for expediency. We will remove the bottom and top 1% of change in ROCE observations:
+
+
+```{r}
+smple <- smple0 |> 
+  filter(
+    ch_roce < quantile(ch_roce, 0.99), 
+    ch_roce > quantile(ch_roce, 0.01)
+  )
+```
+
+With returns it is more likely that large outliers are features of the data and not irregular outliers. BHR returns can be very heavily be influenced by a few large values however. Still, we don't filter the BHR returns for now.  
+
+## Visualizing the BHR-ROCE relation
+
+To motivate the plot we are about to make, we will start with a useless plot:
+
+```{r}
+#| fig-align: center
+smple |> 
+  ggplot(aes(x = ch_roce, y = EBHR12M)) + 
+  geom_point(size = 0.5, shape = 21)
+```
+
+This is a prime example of over-plotting. Too many points on top of each other. Even if we would make them partially transparent, there is no chance you will see a pattern between changes in ROCE and excess buy-and-hold returns in this mess. You cannot even see where most of the points are. 
+
+Our workaround to uncovering structure is twofold. First we color the points according to where most of the points are starting from the center. Second, we draw a flexible trendline through the point cloud. 
+
+
+```{r}
+#| fig-align: center
+fig2 <- smple |>                                             # <1>
+  ggplot(aes(x = ch_roce, y = EBHR12M)) +                    # <2>
+  ggdensity::geom_hdr_points(size = 0.5, shape = 21) +       # <3>
+  geom_vline(xintercept = 0) +                               # <4>
+  geom_hline(yintercept = 0) +                               # <4>
+  scale_x_continuous(expand = c(0, 0)) +                     # <5>
+  scale_y_continuous(expand = c(0, 0)) +                     # <5>
+  geom_smooth(                                               # <6>
+    method = 'gam',                                          # <6>
+    formula = y ~ s(x, bs = "cs"),                           # <6>
+    color = "tan2",                                          # <6>
+    linewidth = 1.5,                                         # <6>
+    se = FALSE                                               # <6>
+    )+                                                       # <6>
+  coord_cartesian(xlim = c(-1, +1), ylim = c(-1, +1)) +      # <7>
+  theme_light() +                                            # <8>
+  theme(panel.grid.minor = element_blank()) +                # <9>
+  labs(                                                      # <10>
+    y = "Contemporaneous excess buy-and-hold return",
+    x = "Yearly change in return on capital employed",
+    title = "The relation between profitability changes and returns is S-shaped",
+    caption = "Source: Compustat North America and CRSP monthly stock data (1980 - 2022)"
+  )
+fig2
+```
+1. Store the result of the computation into variable called `fig2`
+2. Create a plotting canvas with the x axis being mapped to ch_roce and the y axis to EBHR12M
+3. Draw a point cloud colored by high density regions (hdrs). The size argument controls the size of the points, and shape = 21 makes them open points
+4. Add a guiding vertical and a horizontal line that intersects at 0. To make the symmetry of S-shape even more obvious
+5. Reduce the padding around the x and y axes to zero. This way it becomes a bit more obvious that we "zoom" into the data
+6. `geom_smooth` generates a smooth trendline. We need to specify a method for drawing this and we choose GAM (general additive model) with a cubic spline formula.
+7. `coord_cartesian` allows us to "zoom" into the data without throwing away points. This is important as we want `geom_smooth` to draw the trendline taking into account *all* points, not only the ones we see into the zoomed-in plot
+8. Switch the standard grey theme to a lighter theme
+9. Remove some unnecessary gridlines
+10. Add annotations to finalize the plot
+
+Just to make sure our results are not sensitive to extreme returns we can re-draw the graph after filtering out extreme EBHR12M values:
+
+```{r}
+#| fig-align: center
+smple |> 
+  filter(
+    EBHR12M < quantile(EBHR12M, 0.99),
+    EBHR12M > quantile(EBHR12M, 0.01)
+  ) |> 
+  ggplot(aes(x = ch_roce, y = EBHR12M)) + 
+  ggdensity::geom_hdr_points(size = 0.5, shape = 21) +
+  geom_vline(xintercept = 0) + 
+  geom_hline(yintercept = 0) + 
+  scale_x_continuous(expand = c(0, 0)) + 
+  scale_y_continuous(expand = c(0, 0)) + 
+  geom_smooth(
+    method = 'gam', 
+    formula = y ~ s(x, bs = "cs"),
+    color = "tan2",
+    linewidth = 1.5,
+    se = FALSE
+    )+ 
+  coord_cartesian(xlim = c(-1, +1), ylim = c(-1, +1)) +
+  theme_light() +
+  theme(panel.grid.minor = element_blank()) + 
+  labs(
+    y = "Contemporaneous excess buy-and-hold return",
+    x = "Yearly change in return on capital employed",
+    title = "The relation between profitability changes and returns is S-shaped",
+    caption = "Source: Compustat North America and CRSP monthly stock data (1980 - 2022)\nExtreme returns were removed from this figure."
+  )
+```
+
+The S-shape is still there. So let's save the final result of our efforts. The graph clearly shows a non-linear association between yearly changes in firm profitability and buy-and-hold returns over the same period as the change. This can have many implications of course. It might be that larger changes are less "persistent", investors expect them to reverse. It might be that larger changes are more likely to be anticipated. Etc. 
+
+```{r}
+ggsave("chroce-bhrets.png", fig2, width = 6, height = 5, units = "in")
+```
+

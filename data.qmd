@@ -1,0 +1,408 @@
+---
+title: "Part 1"
+---
+## Summary
+
+This part discusses a simple example of loading and examining financial data from WRDS. We discuss how to use coding to explore, understand, and document the characteristics of your data. While doing so you will learn the basics tidyverse and collapse commands. We will finish with a rudimentary analysis of changes in firm size over time by creating the following plot:
+
+![ ](size-by-year.png){width=5in fig-align="center"}
+
+## Start: Load the necessary packages
+
+Once R, RStudio, and the relevant R packages are installed we can start analyzing data. To load the data and start examining it, we want access to a few additional functions that are not in base R. The functions used in this chapter are contained in package collection called tidyverse. We also want to use some extra functionality in the {collapse} package. These packages contain very useful and popular extra functionality not included in base R. Anytime you want to load an R package for the extra functionality it brings, you type and execute a `library` function call:
+
+[Put your library statements, etc. at the top of each script. This makes it easier to see what packages are needed to run the code that follows]{.aside}
+```{r}
+library(collapse)
+library(tidyverse)
+```
+
+These two lines load the collapse package and the core tidyverse packages like ggplot2, dplyr, etc. It tells you in the message under "Attaching core tidyverse packages" exactly which packages it attached and which versions. It also tells you which functions from the loaded packages have a name conflict with functions in base R (or from other packages you might have loaded).
+
+::: {.column-margin}
+If you get an error there is no package called 'tidyverse', you’ll need to first install it, then run library() again.The command is
+
+    install.packages("tidyverse")
+
+You only need to install a package once, but you need to load it every time you start a new session. 
+:::
+
+Once we have the packages loaded, we can start using their extra functionality. The tidyverse packages introduce an R coding framework that is slightly different from base R. Arguably, it is easier and still powerful. These days, it is probably the most common way of coding in R, which is why we chose to teach you using tidyverse mechanics and not pure base R. This does not mean that you cannot do what we do with standard R functions, but it is often clumsier. 
+
+
+## Getting data
+
+Because you will mostly encounter financial data in your professional life as well as the master program, our examples will be based on standard financial databases. This should help you a lot later on, for example when you start your replication study. Normally you would download this data from [WRDS](wrds-web.wharton.upenn.edu/) or access the data directly from a database. In the interest of time, we provide you with a raw dataset.
+
+## Loading data
+
+Say we have downloaded some data from the Compustat North America file from [WRDS](wrds-web.wharton.upenn.edu/) and put it into a folder called `data/`. We labelled the file "ccm-raw-2023-08-08-csv". That name is deliberate as it denotes that the file contains the raw, untouched data and shows the date it was downloaded. 
+
+The Compustat North America file contains some selected financial variables for publicly listed firms in North America. We want to load that file into R, so that we can examine it. The following code line does that:
+
+```{r}
+ccm_raw <- read_csv("data/ccm-raw-2023-08-08-csv.zip")
+```
+
+`readr::read_csv` is a function for---your guessed it---loading ".csv" files (csv: comma separated value).^[These are essentially text files that you could open in a text editor to look at the values. They have the advantage that most programs can read them (because they are text files). The disadvantage is that they usually take more disk space and take longer to read. That is something you will only notice with big files though.] [When we first introduce a function, we will use a package::function notation (e.g., `readr::read_csv`) to point to the package the function is included in. So that you know what packages need to be loaded before you can run the code]{.aside} This line can be read from left to right as: "create an object called `ccm_raw`, assign (`<-`) to it the result of the function call `read_csv()`". The result of read_csv is whatever that function does to its input. The input in this case is a file path in string form: "data/ccm-raw-2023-08-08-csv.zip". Good function names tell you what the function does. In this case, it is pretty expressive: the function reads in a csv file. (Here, it actually reads in a zip file that contains a .csv file.) So what is the content of `ccm_raw` now? If you type the object name into the console and hit execute, you see that `ccm_raw` is a [tibble](https://tibble.tidyverse.org/), a type of data table. 
+
+```{r}
+ccm_raw
+```
+
+Tibbles are the tidyverse versions of data tables. Similar to tables you are familiar with from Excel. They are also called data frames in many statistical programming languages. Data frames are the data container type you will encounter most. There are other container types, like `matrix`, which is a simpler data container that is mostly used for matrix algebra. We won't spend time on those, because you'll be mostly concerned with data in table form.^[Base R also has a `data.frame` type, of which `tibble` is a derivative. There are also others, like `data.table` (which we won't cover, even though it is awesome. It is is advanced stuff). Except for data.table, they are mostly interchangeable.] 
+
+```{r}
+ccm_raw <- rename(ccm_raw, 
+                  gvkey = GVKEY, permno = LPERMNO,
+                  liid = LIID, linktype = LINKTYPE, linkprim = LINKPRIM)
+```
+
+### Adding labels to columns
+
+This is not mandatory, but can make your life a lot easier. Especially if you get data with semi-cryptic names. Assigning labels to to columns will help you (and potential coauthors) later to remember what you are looking at.[You can also just rename columns; give them more expressive names. For commercial datasets, we think it is better to keep the standard names for the raw data.]{.aside} Some functions can also take advantage of labels. `collapse::vlabels` can be used to assign labels. You do so by assigning a "named vector" (using the concatenate `c()` function to create the vector) to `vlabels(DATAFRAMENAME)`:
+
+```{r}
+vlabels(ccm_raw) <- c( 
+  # order must be the same as the columns:
+  "gvkey" = "Standard and Poor's Identifier",
+  "linkprim" = "Primary Link Marker",
+  "liid" = "Security-level Identifier",
+  "linktype" = "Link Type Code",
+  "permno" = "Historical CRSP Identifier",
+  "datadate" = "Fiscal Year-End Date",
+  "fyear" = "Data Year - Fiscal",
+  "indfmt" = "Industry Format",
+  "consol" = "Consolidation Level",
+  "popsrc" = "Population Source",
+  "datafmt" = "Data Format",
+  "tic" = "Ticker Symbol",
+  "cusip" = "CUSIP",
+  "conm" = "Company Name",
+  "curcd" = "Currency",
+  "fyr" = "Fiscal Year-End",
+  "at" = "Assets - Total",
+  "ceq" = "Common/Ordinary Equity - Total",
+  "che" = "Cash and Short-Term Investments",
+  "dlc" = "Debt in Current Liabilities - Total",
+  "dltt" = "Long-Term Debt - Total",
+  "ib" = "Income Before Extraordinary Items",
+  "oiadp" = "Operating Income After Depreciation",
+  "sale" = "Sales/Turnover (Net)",
+  "exchg" = "Stock Exchange Code",
+  "costat" = "Company Status",
+  "fic" = "Foreign Incorporation Code",
+  "priusa" = "PRIUSA -- Current Primary Issue Tag",
+  "sic" = "Standard Industry Classification Code"
+)
+```
+
+
+## Examining data
+
+### Table meta data functions
+
+When you typed `ccm_raw`, R did not print the full table. It tells you that there are 271,133 more rows and 19 more variables that you don't see here. This printing behavior is mostly to save you from accidentally outputting huge datasets and freeze your machine. There are other functions to help you get a better overview of the data contained in the tibble. One is `dplyr::glimpse`
+
+```{r}
+glimpse(ccm_raw)
+```
+`glimpse` just shows you in compact form: 1) the number of rows, 2) the number of columns, 3) all column names, 4) column types, and 5) the first values in each column in the table
+
+An alternative to `glimpse` that does not rely on `dplyr` being loaded in is the base R function: `base::str`. But it is usually less clean, so we prefer glimpse.
+
+
+### Data viewers
+
+If you use RStudio or VScode as your IDE (integrated development environment), then you can also view tibbles/data.frames/data.tables in a viewer. In RStudio, you can click on the tibble name "ccm_raw" in the environment pane, hitting the F2-key if the cursor is on the "ccm_raw" also opens the data viewer. Or you can use the function `tibble::view` to start the data viewer. 
+
+```{r}
+view(ccm_raw)
+```
+
+
+### Getting a structured overview
+
+When dealing with large datasets, looking at the data viewer will not be enough. One of the first things you should do is to get a better feeling for the data you are dealing with. If you want to get a glimpse of what countries are in this dataset, you cannot just browse through 300,000 rows. It will take too long and it is easy to miss a rarely occurring patterns.
+
+Things like examining the distinct values in a column help you a lot in better understanding your data. You can use the `collapse::fndistinct` function to check the number of distinct values per column
+
+```{r}
+fndistinct(ccm_raw)
+```
+
+There are a few columns with just one distinct value. We don't need those anymore. They were used to filter the raw data. In case you do not know/remember what those columns were, look at the labels.
+
+```{r}
+ccm_raw |>                                    #<1>
+  select(indfmt, consol, popsrc, datafmt) |>  #<2>
+  namlab()                                    #<3>
+```
+1. Start with the `ccm_raw` dataset
+2. Select four columns, throw the rest away (using `dplyr::select`)
+3. Call `namlab`on the reduced tibble to see the column labels for the selected labels
+
+```{r}
+ccm_raw |>                                    
+  select(indfmt, consol, popsrc, datafmt) |>  
+  funique()                                  #<1>
+```
+1. `collapse::funique` shows only unique combinations in a data frame.
+
+Above, we used what is called a *pipe operator* `|>`. It allows us to *chain* together a sequence of steps. When you see a `|>`, it means "take the result of what is left of `|>` and put it as the first input to what is right of `|>`.
+
+Back to the topic at hand, we do not need the columns: indfmt, consol, popsrc, datafmt. Let us get rid of them. We do so by generating a new dataset, which we call `ccm` and using a "negative" select call.[We like to keep the raw data untouched when filtering and cleaning data]{.aside}
+
+```{r}
+ccm <- 
+  ccm_raw |> 
+  select(-indfmt, -consol, -popsrc, -datafmt) 
+```
+
+
+### Examining individual columns
+
+You would usually spend some more time understanding the data. For example, what about those with 2 values? We can use `collapse::descr` to provide some descriptive statistics. Notice how it also uses the labels we provided before.
+
+```{r}
+ccm |> 
+  select(curcd, costat) |> 
+  descr()
+```
+Depending on how we define our setting, we might want to get rid of those financials in Canadian dollars `curcd == "CAD"`. `costat`shows that 60% of our sample has the inactive status.
+
+We can also call `descr` on single columns using `$` to select a single column:
+
+```{r}
+descr(ccm$fic)
+```
+
+There are 69 different countries of incorporation in this dataset. Most incorporated in the USA. We learn something interesting about the dataset. Not all firms in the North America Dataset are located in North America. Most firm-year obs are associated with USA incorporation. Some are incorporated in Canada, the next most often occurring is Cayman islands. Depending on our research question, we might want to restrict our sample only to firms incorporated in the US. Before making that call, however, we might want to explore the data a bit more. 
+
+We see that some observations are from firms incorporated in the Netherlands. Let us extract a sample of names of those companies. 
+
+```{r}
+ccm |>                      #<1>
+  filter(fic == "NLD") |>   #<2>
+  pull(conm) |>             #<3> 
+  unique() |>               #<4>
+  head(20)                  #<5>
+```
+1. Start with the table ccm_raw
+2. Reduce the table to only rows with fic equaling (`==`) "NLD"
+3. `dplyr::pull` extracts the "conm" column from the reduce table into a vector
+4. Reduce to only unique values in the vector
+5. Show the first 20 values in the vector
+
+The NLD firms are likely larger internationals that are listed on one of the US exchanges in some form, so that they have to file with the SEC (Companies listed on a US exchange must file financial statements with the SEC). Let's look at ASM for example:
+
+```{r}
+ccm |>                                        #<1>
+  filter(conm == "ASM INTERNATIONAL NV") |>   #<2>
+  select(tic, cusip, conm, curcd, exchg) |>   #<3>
+  distinct()                                  #<4>
+```
+1. Start with the table ccm_raw
+2. Reduce the table to only rows with conm equaling (`==`) "ASM INTERNATIONAL NV"
+3. Reduce the reduced table further to only contain the columns tic, cusip, conm, curcd, exchg
+4. `dplyr::distinct`drops all repeating rows in the reduced table (could have also used `funique`)
+
+As the example above shows: `dplyr::select` and `dplyr::filter` are two fundamental slicing and indexing functions. `filter` is for rows and `select`is for columns. 
+
+The purpose here was to examine what ticker, currency, and stock exchange code ASM is associated with. We also want to check there is more than one combination of values for these five columns (there is not). For example, ASM is in our sample for more than one year and it might have changed its ticker over time, etc.). We see that ASM has a ticker and an exchg code of 19, which means "Other-OTC" per the compustat [data guide](https://wrds-www.wharton.upenn.edu/documents/1583/Compustat_Data_Guide.pdf). These can include international filers. In fact, most of the observations fall into category 19 (another one, 14, is NASDAQ). Depending on the intended sample---US firms or firms listed in the US---we might want to exclude them. 
+
+
+## Ensure one observation per unit of analysis
+
+When you perform analyses, it is important that you are clear what your unit of analysis is. Let's say that our unit of analysis is a firm-fiscal year. In that case, we need to check whether we have one observation per unit of analysis. 
+
+We can do this we simple counts.`dplyr::count` is a handy function for this. `count`, as the name suggests, counts how often a value of a set of variables occurs in the dataset. The first input you provide is the dataset, the next inputs are the column names to base the count on: 
+
+```{r}
+ccm |> 
+  count(gvkey, datadate) |> #<1>
+  head()                    #<2>
+```
+1. Count how many observations exist for each unique gvkey x datadate combination
+2. Show the first six observations in the resulting tibble
+
+For example, the combination gvkey 001001 x date 1983-12-31 occurs exactly once in the datset `ccm`. We can combine two `count` calls to see whether we have anything to worry about:
+
+```{r}
+ccm |> 
+  count(gvkey, datadate, name = "firm_year") |> #<1>
+  count(firm_year)                              #<2>
+```
+1. Count how many observations exist for each unique gvkey x datadate combination. Call the count column "firm_year"
+2. Count how often each value of the "firm_year" column occurs
+
+As you can see, there are a few gvkey x datadate combinations that occur twice, some even three times. Why is this happening? Let write some code to figure it out.
+
+```{r}
+ccm_test <- ccm |> 
+  add_count(gvkey, datadate, name = "n_same_firm_year") |>  # <1>
+  filter(n_same_firm_year > 1)                              # <2>
+```
+1. `dplyr::add_count` counts the number of rows with a specific gvkey x datadate value and *adds* that value to the rows with the respective gvkey x datadate value
+2. Next we filter to only keep rows with a count higher than 1
+
+Let's look at the result and limit our output to only some selected columns and ten rows:
+
+```{r}
+ccm_test |> 
+  select(gvkey, permno, datadate, liid, linkprim, linktype, exchg) |> 
+  head(10)
+```
+
+From the output we can see that the reason is that this dataset has another company identifier (permno) merged to it already. This is the identifier we will need in the second part to merge stock return data to this sample. It can happen that one gvkey is associated with more than one permno. Sometimes there are primary and secondary links. 
+
+We decided that our unit of analysis is firm-year, not security-year. Hence we only want one unique observation per firm-year. For that, we will need to do some filtering. Let us reduce the data to rows that either are a unique gvkey x datadate combination, or are labelled as primary link between compustat and crsp (which we will need later to join return data on it). We will also filter to companies incorporated in the US. (e.g., as we would want to if we look at some US-GAAP specific analysis).
+
+```{r}
+ccm_unique <- ccm |> 
+  add_count(gvkey, datadate, name = "n_same_firm_year") |>       # <1>
+  filter(             
+    n_same_firm_year == 1 | linkprim == "P",  # "|" means "or"   # <2>
+    fic %in% c("USA")                                            # <3>
+  ) |>   
+  select(-n_same_firm_year)                                      # <4>
+```
+1. Count how many observations exist for each unique gvkey x datadate combination. Call the count column "firm_year"
+2. Keep rows with either n_same_firm_year == 1 or linkprim == "P"
+3. Keep rows with fic in a list of values ("USA")
+4. Delete the column "n_same_firm_year"
+
+We should now have one observation per gvkey x datadate unit of analysis. Let us double-check whether it is indeed the case.
+
+```{r}
+ccm_unique |> 
+  count(gvkey, datadate, name = "firm_year") |> 
+  count(firm_year)
+```
+
+We will leave it at that for now and save the result. 
+
+
+## Saving datasets
+
+You can save datasets to many different formats, e.g., back to .csv, to Stata or SAS files, excel files, and many many more. There is an R package for almost all file formats you might need. If you share data and don't mind large files, csv is not a bad choice (e.g., using `readr::write_csv`). *Do not* save datsets to excel! Excel files have a row limit that is often exceeded and the chance that data formats and similar things get garbled is just too high. ({writexl} is a package including functions for writing excel files. {readxl} for reading).
+
+R also has a way store datasets into binary format. These files are called .rds files. They are reasonably fast and compact, so not a bad choice for saving intermediate output that is not supposed to be stored permanently. We will use it now. 
+
+```{r}
+saveRDS(ccm_unique, "data/ccm-unique.rds")
+# readRDS for reading the file in again
+```
+
+We will continue preparing the sample in the second part of the workshop "Transforming Data". 
+
+
+## Plotting to understand data
+
+A good plotting library is an incredibly powerful tool to not only present results but also to explore and understand data. See for example the [BBC Visual and Data Journalism cookbook for R graphics](https://bbc.github.io/rcookbook/) for some great examples of good plots. In our case, we wan to get a better feeling for how the distribution of firm size in our dataset.
+
+We could start with a simple histogram
+
+```{r}
+#| fig-align: center
+ccm_unique |> 
+  drop_na(at) |>                    # <1>
+  ggplot(aes(x = at)) +             # <2>
+  geom_histogram(bins = 50)         # <3>
+```
+1. Drop all rows with missing values of at (assets total) from the data frame
+2. Create a plotting canvas with the x axis being mapped to at
+3. Draw a histogram on the plot canvas using 50 bins
+
+Unfortunately, we do not see much here. The reason is the extremely skewed distribution of variables like total assets, sales, household income. There is always a "Apple Inc." that is so much larger, or a "Jeff Bezoz" that is so much richer than everyone else. For variables that can only have positive values, taking the logarithm can yield in a much easier visualization. But we need a to be a bit careful with our log-taking. If we have negative values, the `log()` function will produce missing values and if we take the log of zero we get "negative infinity" as a result
+
+
+```{r}
+ccm_unique |> 
+  mutate(Size = log(at)) |>  # <1>
+  select(at, Size) |>        # <2>
+  qsu()                      # <3>
+```
+1. Mutate the data by taking the log of at and storing the result into a new column named "Size"
+2. Only keep the columns at and Size. Drop all other columns
+3. `collapse:qsu` computes a quick summary (qsu)
+
+The -Inf is a problem when plotting so we filter it out before
+
+```{r}
+#| fig-align: center
+ccm_unique |> 
+  mutate(Size = log(at)) |>   # <1>
+  filter(is.finite(Size)) |>  # <2>
+  ggplot(aes(x = Size)) +     # <3>
+  geom_histogram(bins = 50)   # <4>
+```
+1. Mutate the data by taking the log of at and storing the result into a new column named "Size"
+2. Drop all rows with infinite values of Size from the data frame
+3. Create a plotting canvas with the x axis being mapped to Size
+4. Draw a histogram on the plot canvas using 50 bins
+
+This looks much better. However, this is the distribution over all years in our sample. It might hide interesting patterns in the data. We could take a look at how the data changed over time. There is multiple ways we could try to visualize and explore such changes. Here is one. For this we need a third extra package called {ggrides}
+
+```{r}
+library(ggridges)
+```
+
+If you are surprised that you need an yet another package to run the code, you should be. As we said above, this is bad coding practice. Put all your library calls always at the top of your scripts, so that everyone can always see what is required to run all code. [ggridges](https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html) contains functions to plot so-called ridge plots. We will use `ggridges::geom_density_ridges` for that. 
+
+
+```{r}
+#| fig-align: center
+fig1 <-                                                   # <1>
+  ccm_unique |>                                          
+  mutate(Size = log(at)) |>                               # <2>
+  filter(                                                  
+    is.finite(Size),                                      # <3>
+    !is.na(fyear) & fyear < 2023                          # <4>
+  ) |> 
+  ggplot(aes(x = Size, y = as.factor(fyear))) +           # <5>
+  geom_density_ridges(                                    # <6>
+    scale = 5, 
+    fill = "coral", color = "black",
+    alpha = 0.2, 
+    rel_min_height = 0.005
+  ) +
+  geom_vline(xintercept = 5, color = "grey30") +         # <7>
+  scale_y_discrete(expand = c(0.01, 0)) +                # <8>
+  scale_x_continuous(expand = c(0.01, 0)) +              # <9>
+  theme_light() +                                        # <10>
+  theme(panel.grid.minor = element_blank()) +            # <11>
+  labs(                                                  # <12>
+    y = "Fiscal Year",
+    x = "Firm Size (log of total assets)",
+    title = "Listed firms are much bigger today",
+    subtitle = "Change in firm size distribution over time",
+    caption = "Source: Compustat North America data (1980 - 2022). Not adjusted for inflation"
+  )
+```
+1. Store the result of the computation into variable called `fig1`
+2. Mutate the data by taking the log of at and storing the result into a new column named "Size"
+3. Drop all rows with infinite values of Size from the data frame
+4. Drop all rows with missing fiscal year (fyear) and fyear greater equal 2023
+5. Create a plotting canvas with the x axis being mapped to Size and the y axis to fyear where fyear is transformed from an integer variable to a factor before. (A quirk of ggridges makes this necessary)
+6. Draw a ridge plot on the plot canvas using a certain parameter configuration
+7. Add a guiding vertical line that intersects the x axis at 5. 
+8. Reduce the padding around the x axis (The default padding is to much for my taste)
+9. Reduce the padding around the y axis
+10. Switch the standard grey theme to a lighter theme
+11. Remove some unnecessary gridlines
+12. Add annotations to finalize the plot
+
+
+We have stored the plot into a variable called `fig1` instead of plotting it directly. This is useful for post-processing, saving, etc. Here is the plot in `fig1`
+
+```{r}
+fig1
+```
+
+And here is how to save it to disk in .png format (good for websites)
+
+```{r}
+ggsave("size-by-year.png", fig1, width = 7, height = 7, units = "in")
+```
+

@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: docs
+
+highlight-style: "github"
+code-block-bg: true
+code-block-border-left: "#31BAE9"
+
+website:
+  title: " R Workshop"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Intro
+      - href: data.qmd
+        text: Part 1
+      - href: transform.qmd
+        text: Part 2
+      - href: about.qmd
+        text: About
+
+format:
+  html:
+    css: styles.scss
+    theme:
+      - cosmo
+      - styles.scss
+    toc: true
+
+
+

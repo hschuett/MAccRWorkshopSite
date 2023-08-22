@@ -1,0 +1,13 @@
+---
+title: "About us"
+---
+
+## Tilburg Master of Accountancy
+
+The Tilburg master of Accountancy is a one-year program, structured to teach you how to design and assess the financial and non-financial information environment of companies. In addition, you get solid foundation in emerging themes such as incorporating and reporting of sustainability strategies and extracting valuable information from accounting data by using state-of-the-art data analytics. 
+
+You can find more information [here](https://www.tilburguniversity.edu/nl/onderwijs/masteropleidingen/accountancy) (in Dutch) and a general overview of the program [here](https://www.tilburguniversity.edu/education/masters-programs/accountancy/program) (in English)
+
+## The Instructor
+
+This course is taught by Harm Schütt, Assistant professor at the Tilburg School of Economics and Management. My personal [website](https://hschuett.github.io/) provides more information on my research and teaching activities.

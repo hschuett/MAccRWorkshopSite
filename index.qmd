@@ -1,0 +1,35 @@
+---
+title: "Welcome"
+---
+
+## What is this site?
+
+
+This site contains the material for the introductory R workshop, offered for Tilburg Master of Accountancy students. The workshop is a short introduction, consisting of two sessions (1h:45min each). Its purpose is to introduce Master students with no previous programming experience to the R programming language---especially with an eye towards the Master file and courses, such as Data-Driven Decision-Making. But we hope everyone with an interest in learning R will find something useful here.
+
+
+## Learning goals
+
+1. Be able to perform basic data operations in R using the tidyverse dialect
+2. Be able to construct standard data visualizations using the {ggplot2} R package
+3. Be able to compute standard descriptive statistics
+
+
+## How to use this site
+
+You only learn coding by doing it. The site complements but is *not* a substitute for the workshop's in-class learning. It is written with users in mind that have been at the workshop. It provides a summary of what we code there plus the rationale discussed. We will use the website margins for further commentary on coding rationale. [Margin comments, such as this one, contain comments on coding practices]{.aside} We hope the site will help you to refresh your memory after the workshop when you start using R in your studies.  
+
+## Other useful ressources
+
+This is a short, condensed workshop. We only have three and a half hours to introduce you to the basics, so we need to be quite selective. Here are a number of great resources to help you build on what you learned.
+
+- [R for Data Science](https://r4ds.hadley.nz//). This is a complete, open book introducing the tidyverse dialect of R for data science. It goes into more detail and extends on the basic data wrangling techniques that we covered. A great place if you look for more coverage of the core data manipulation methods.
+- [Empirical Research in Accounting: Tools and Methods](https://iangow.github.io/far_book/). A great ressource maintained by Ian Gow and Tony Ding. It contains R code and is essentially the companion to a course on financial accounting research that begins at an upper-undergraduate (“honours”) or introductory PhD level.
+- [Data-Driven Decision-Making Lecture Notes](https://hschuett.github.io/DDDMbook/). The lecture notes of the controlling track course "Data-Driven Decision-Making" contains further examples, cases and material on using R for data-driven decision making. For example, one chapter of interest might be the chapter on predictive analytics, introducing R frameworks to coding prediction models.
+- [Tilburg Science Hub](https://tilburgsciencehub.com/). You'll find many useful tutorials here. The TSH is a great knowledge repository dedicated to help young researchers developing their empirical skill set. It offers many tutorials on how to process data, design workflows, and structure projects. 
+
+
+Best regards
+
+Harm Schütt<BR>
+Office: Koopmans Buidling, K 250
