@@ -50,7 +50,7 @@ ccm_raw <- read_csv("data/ccm-raw-2023-08-08-csv.zip")
 ccm_raw
 ```
 
-Tibbles are the tidyverse versions of data tables. Similar to tables you are familiar with from Excel. They are also called data frames in many statistical programming languages. Data frames are the data container type you will encounter most. There are other container types, like `matrix`, which is a simpler data container that is mostly used for matrix algebra. We won't spend time on those, because you'll be mostly concerned with data in table form.^[Base R also has a `data.frame` type, of which `tibble` is a derivative. There are also others, like `data.table` (which we won't cover, even though it is awesome. It is is advanced stuff). Except for data.table, they are mostly interchangeable.] 
+Tibbles are the tidyverse versions of data tables. Similar to tables you are familiar with from Excel. They are also called data frames in many statistical programming languages. Data frames are the data container type you will encounter most. There are other container types, like `matrix`, which is a simpler data container that is mostly used for matrix algebra. We won't spend time on those, because you'll be mostly concerned with data in table form.^[Base R also has a `data.frame` type, of which `tibble` is a derivative. There are also others, like `data.table` (which we won't cover, even though it is awesome. It is advanced stuff). Except for data.table, they are mostly interchangeable.] 
 
 ```{r}
 ccm_raw <- rename(ccm_raw, 
@@ -123,7 +123,7 @@ view(ccm_raw)
 
 ### Getting a structured overview
 
-When dealing with large datasets, looking at the data viewer will not be enough. One of the first things you should do is to get a better feeling for the data you are dealing with. If you want to get a glimpse of what countries are in this dataset, you cannot just browse through 300,000 rows. It will take too long and it is easy to miss a rarely occurring patterns.
+When dealing with large datasets, looking at the data viewer will not be enough. One of the first things you should do is to get a better feeling for the data you are dealing with. If you want to get a glimpse of what countries are in this dataset, you cannot just browse through 300,000 rows. It will take too long and it is easy to miss rarely occurring patterns.
 
 Things like examining the distinct values in a column help you a lot in better understanding your data. You can use the `collapse::fndistinct` function to check the number of distinct values per column
 
@@ -188,7 +188,7 @@ ccm |>                      #<1>
   unique() |>               #<4>
   head(20)                  #<5>
 ```
-1. Start with the table ccm_raw
+1. Start with the table ccm
 2. Reduce the table to only rows with fic equaling (`==`) "NLD"
 3. `dplyr::pull` extracts the "conm" column from the reduce table into a vector
 4. Reduce to only unique values in the vector
@@ -202,14 +202,14 @@ ccm |>                                        #<1>
   select(tic, cusip, conm, curcd, exchg) |>   #<3>
   distinct()                                  #<4>
 ```
-1. Start with the table ccm_raw
+1. Start with the table ccm
 2. Reduce the table to only rows with conm equaling (`==`) "ASM INTERNATIONAL NV"
 3. Reduce the reduced table further to only contain the columns tic, cusip, conm, curcd, exchg
 4. `dplyr::distinct`drops all repeating rows in the reduced table (could have also used `funique`)
 
 As the example above shows: `dplyr::select` and `dplyr::filter` are two fundamental slicing and indexing functions. `filter` is for rows and `select`is for columns. 
 
-The purpose here was to examine what ticker, currency, and stock exchange code ASM is associated with. We also want to check there is more than one combination of values for these five columns (there is not). For example, ASM is in our sample for more than one year and it might have changed its ticker over time, etc.). We see that ASM has a ticker and an exchg code of 19, which means "Other-OTC" per the compustat [data guide](https://wrds-www.wharton.upenn.edu/documents/1583/Compustat_Data_Guide.pdf). These can include international filers. In fact, most of the observations fall into category 19 (another one, 14, is NASDAQ). Depending on the intended sample---US firms or firms listed in the US---we might want to exclude them. 
+The purpose here was to examine what ticker, currency, and stock exchange code ASM is associated with. We also want to check whether there is more than one combination of values for these five columns (there is not). For example, ASM is in our sample for more than one year and it might have changed its ticker over time, etc.). We see that ASM has a ticker and an exchg code of 19, which means "Other-OTC" per the compustat [data guide](https://wrds-www.wharton.upenn.edu/documents/1583/Compustat_Data_Guide.pdf). These can include international filers. In fact, most of the observations fall into category 19 (another one, 14, is NASDAQ). Depending on the intended sample---US firms or firms listed in the US---we might want to exclude them. 
 
 
 ## Ensure one observation per unit of analysis
