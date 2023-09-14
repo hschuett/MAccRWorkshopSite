@@ -202,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-1" data-code-lines="4">This statement is only attaching one function <code>as.yearmon</code> from the {zoo} package.</span>
+<span data-code-lines="4" data-code-cell="annotated-cell-1" data-code-annotation="1">This statement is only attaching one function <code>as.yearmon</code> from the {zoo} package.</span>
 </dd>
 </dl>
 </div>
@@ -257,15 +257,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-4" data-code-lines="2">Aggregate (summarize) the data in iris by species</span>
+<span data-code-lines="2" data-code-cell="annotated-cell-4" data-code-annotation="1">Aggregate (summarize) the data in iris by species</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-4" data-code-lines="3">Compute the number of obs (in a fyear group) and call that column “n_obs”</span>
+<span data-code-lines="3" data-code-cell="annotated-cell-4" data-code-annotation="2">Compute the number of obs (in a fyear group) and call that column “n_obs”</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-4" data-code-lines="5">Sort the resulting tibble in descending order (the ‘-’) of n_obs</span>
+<span data-code-lines="5" data-code-cell="annotated-cell-4" data-code-annotation="3">Sort the resulting tibble in descending order (the ‘-’) of n_obs</span>
 </dd>
 </dl>
 </div>
@@ -457,35 +457,35 @@ $ vwretd   &lt;dbl&gt; 0.043061, 0.009830, 0.072501, 0.053887, -0.007903, 0.0508
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-16" data-code-lines="2">Create a {zoo} year-month variable</span>
+<span data-code-lines="2" data-code-cell="annotated-cell-16" data-code-annotation="1">Create a {zoo} year-month variable</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-16" data-code-lines="3">Create panel indices. permno as the unit index and yrmon as the time index. Useful for functions such as <code>flag</code> to use</span>
+<span data-code-lines="3" data-code-cell="annotated-cell-16" data-code-annotation="2">Create panel indices. permno as the unit index and yrmon as the time index. Useful for functions such as <code>flag</code> to use</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-16" data-code-lines="5">Create a log return</span>
+<span data-code-lines="5" data-code-cell="annotated-cell-16" data-code-annotation="3">Create a log return</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-16" data-code-lines="6">Key part: <code>flag</code> creates a matrix of leads and lags from 8 months before the current months to 3 months after the current month (e.g, if we are in December from April of the current year to March of the next year). Then <code>rowSums</code> sums up all the values in a given row of the matrix to one value. This is a log buy-and-hold return.</span>
+<span data-code-lines="6" data-code-cell="annotated-cell-16" data-code-annotation="4">Key part: <code>flag</code> creates a matrix of leads and lags from 8 months before the current months to 3 months after the current month (e.g, if we are in December from April of the current year to March of the next year). Then <code>rowSums</code> sums up all the values in a given row of the matrix to one value. This is a log buy-and-hold return.</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-16" data-code-lines="7">Exponentiate to turn the log BHR return into a normal gross return and subtract one to get make it a net return</span>
+<span data-code-lines="7" data-code-cell="annotated-cell-16" data-code-annotation="5">Exponentiate to turn the log BHR return into a normal gross return and subtract one to get make it a net return</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-annotation="6" data-code-cell="annotated-cell-16" data-code-lines="8,9,10">Repeat the buy-and-hold return computation for the value-weighted market return</span>
+<span data-code-lines="8,9,10" data-code-cell="annotated-cell-16" data-code-annotation="6">Repeat the buy-and-hold return computation for the value-weighted market return</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-annotation="7" data-code-cell="annotated-cell-16" data-code-lines="11">Create the excess buy-and-hold return EBHR by subtracting the market BHR from the stock’s BHR</span>
+<span data-code-lines="11" data-code-cell="annotated-cell-16" data-code-annotation="7">Create the excess buy-and-hold return EBHR by subtracting the market BHR from the stock’s BHR</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="8">8</dt>
 <dd>
-<span data-code-annotation="8" data-code-cell="annotated-cell-16" data-code-lines="13">Remove the panel index again, as we do not need it anymore</span>
+<span data-code-lines="13" data-code-cell="annotated-cell-16" data-code-annotation="8">Remove the panel index again, as we do not need it anymore</span>
 </dd>
 </dl>
 </div>
@@ -542,11 +542,11 @@ Quantiles
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-19" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-19" data-code-lines="2">Create an corresponding {zoo} year-month variable from the fiscal year-end date column. Need this to join the two tables.</span>
+<span data-code-lines="2" data-code-cell="annotated-cell-19" data-code-annotation="1">Create an corresponding {zoo} year-month variable from the fiscal year-end date column. Need this to join the two tables.</span>
 </dd>
 <dt data-target-cell="annotated-cell-19" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-19" data-code-lines="3">Left-join the resulting data frame to crsp_join by the keys permno and yrmon (two columns with identical names that need to be present in both tables/data frames)</span>
+<span data-code-lines="3" data-code-cell="annotated-cell-19" data-code-annotation="2">Left-join the resulting data frame to crsp_join by the keys permno and yrmon (two columns with identical names that need to be present in both tables/data frames)</span>
 </dd>
 </dl>
 </div>
@@ -605,31 +605,31 @@ Quantiles
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-22" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-22" data-code-lines="3">Drop all rows with a missing fiscal year value</span>
+<span data-code-lines="3" data-code-cell="annotated-cell-22" data-code-annotation="1">Drop all rows with a missing fiscal year value</span>
 </dd>
 <dt data-target-cell="annotated-cell-22" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-22" data-code-lines="5">Create panel indices. gvkey as the unit index and fyear as the time index. Mainly useful for functions such as <code>flag</code></span>
+<span data-code-lines="5" data-code-cell="annotated-cell-22" data-code-annotation="2">Create panel indices. gvkey as the unit index and fyear as the time index. Mainly useful for functions such as <code>flag</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-22" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-22" data-code-lines="7,8,9">Some variables have missings that are more likely to be zeros. (e.g., if debt is missing, it likely does not have debt). `replace_NA`` replaces NA values with a chosen value (0 in this case)</span>
+<span data-code-lines="7,8,9" data-code-cell="annotated-cell-22" data-code-annotation="3">Some variables have missings that are more likely to be zeros. (e.g., if debt is missing, it likely does not have debt). `replace_NA`` replaces NA values with a chosen value (0 in this case)</span>
 </dd>
 <dt data-target-cell="annotated-cell-22" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-22" data-code-lines="10">Compute capital employed as explained above</span>
+<span data-code-lines="10" data-code-cell="annotated-cell-22" data-code-annotation="4">Compute capital employed as explained above</span>
 </dd>
 <dt data-target-cell="annotated-cell-22" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-22" data-code-lines="11">Compute ROCE using average capital employed over the fiscal year</span>
+<span data-code-lines="11" data-code-cell="annotated-cell-22" data-code-annotation="5">Compute ROCE using average capital employed over the fiscal year</span>
 </dd>
 <dt data-target-cell="annotated-cell-22" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-annotation="6" data-code-cell="annotated-cell-22" data-code-lines="12">Compute a simple change in ROCE. We chose not to scale the change</span>
+<span data-code-lines="12" data-code-cell="annotated-cell-22" data-code-annotation="6">Compute a simple change in ROCE. We chose not to scale the change</span>
 </dd>
 <dt data-target-cell="annotated-cell-22" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-annotation="7" data-code-cell="annotated-cell-22" data-code-lines="14">Remove the panel index again, as we do not need it anymore</span>
+<span data-code-lines="14" data-code-cell="annotated-cell-22" data-code-annotation="7">Remove the panel index again, as we do not need it anymore</span>
 </dd>
 </dl>
 </div>
@@ -730,43 +730,43 @@ Quantiles
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-27" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-27" data-code-lines="1">Store the result of the computation into variable called <code>fig2</code></span>
+<span data-code-lines="1" data-code-cell="annotated-cell-27" data-code-annotation="1">Store the result of the computation into variable called <code>fig2</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-27" data-code-lines="2">Create a plotting canvas with the x axis being mapped to ch_roce and the y axis to EBHR12M</span>
+<span data-code-lines="2" data-code-cell="annotated-cell-27" data-code-annotation="2">Create a plotting canvas with the x axis being mapped to ch_roce and the y axis to EBHR12M</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-27" data-code-lines="3">Draw a point cloud colored by high density regions (hdrs). The size argument controls the size of the points, and shape = 21 makes them open points</span>
+<span data-code-lines="3" data-code-cell="annotated-cell-27" data-code-annotation="3">Draw a point cloud colored by high density regions (hdrs). The size argument controls the size of the points, and shape = 21 makes them open points</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-27" data-code-lines="4,5">Add a guiding vertical and a horizontal line that intersects at 0. To make the symmetry of S-shape even more obvious</span>
+<span data-code-lines="4,5" data-code-cell="annotated-cell-27" data-code-annotation="4">Add a guiding vertical and a horizontal line that intersects at 0. To make the symmetry of S-shape even more obvious</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-27" data-code-lines="6,7">Reduce the padding around the x and y axes to zero. This way it becomes a bit more obvious that we “zoom” into the data</span>
+<span data-code-lines="6,7" data-code-cell="annotated-cell-27" data-code-annotation="5">Reduce the padding around the x and y axes to zero. This way it becomes a bit more obvious that we “zoom” into the data</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-annotation="6" data-code-cell="annotated-cell-27" data-code-lines="8,9,10,11,12,13,14"><code>geom_smooth</code> generates a smooth trendline. We need to specify a method for drawing this and we choose GAM (general additive model) with a cubic spline formula.</span>
+<span data-code-lines="8,9,10,11,12,13,14" data-code-cell="annotated-cell-27" data-code-annotation="6"><code>geom_smooth</code> generates a smooth trendline. We need to specify a method for drawing this and we choose GAM (general additive model) with a cubic spline formula.</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-annotation="7" data-code-cell="annotated-cell-27" data-code-lines="15"><code>coord_cartesian</code> allows us to “zoom” into the data without throwing away points. This is important as we want <code>geom_smooth</code> to draw the trendline taking into account <em>all</em> points, not only the ones we see into the zoomed-in plot</span>
+<span data-code-lines="15" data-code-cell="annotated-cell-27" data-code-annotation="7"><code>coord_cartesian</code> allows us to “zoom” into the data without throwing away points. This is important as we want <code>geom_smooth</code> to draw the trendline taking into account <em>all</em> points, not only the ones we see into the zoomed-in plot</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="8">8</dt>
 <dd>
-<span data-code-annotation="8" data-code-cell="annotated-cell-27" data-code-lines="16">Switch the standard grey theme to a lighter theme</span>
+<span data-code-lines="16" data-code-cell="annotated-cell-27" data-code-annotation="8">Switch the standard grey theme to a lighter theme</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="9">9</dt>
 <dd>
-<span data-code-annotation="9" data-code-cell="annotated-cell-27" data-code-lines="17">Remove some unnecessary gridlines</span>
+<span data-code-lines="17" data-code-cell="annotated-cell-27" data-code-annotation="9">Remove some unnecessary gridlines</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="10">10</dt>
 <dd>
-<span data-code-annotation="10" data-code-cell="annotated-cell-27" data-code-lines="18">Add annotations to finalize the plot</span>
+<span data-code-lines="18" data-code-cell="annotated-cell-27" data-code-annotation="10">Add annotations to finalize the plot</span>
 </dd>
 </dl>
 </div>

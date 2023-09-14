@@ -216,7 +216,7 @@ Attache Paket: 'collapse'</code></pre>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ dplyr     1.1.3     ✔ readr     2.1.4
 ✔ forcats   1.0.0     ✔ stringr   1.5.0
 ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
 ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
@@ -382,7 +382,7 @@ $ sic      &lt;chr&gt; "5812", "5812", "5812", "5712", "5712", "5712", "5712", "
 </section>
 <section id="getting-a-structured-overview" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="getting-a-structured-overview">Getting a structured overview</h3>
-<p>When dealing with large datasets, looking at the data viewer will not be enough. One of the first things you should do is to get a better feeling for the data you are dealing with. If you want to get a glimpse of what countries are in this dataset, you cannot just browse through 300,000 rows. It will take too long and it is easy to miss a rarely occurring patterns.</p>
+<p>When dealing with large datasets, looking at the data viewer will not be enough. One of the first things you should do is to get a better feeling for the data you are dealing with. If you want to get a glimpse of what countries are in this dataset, you cannot just browse through 300,000 rows. It will take too long and it is easy to miss rarely occurring patterns.</p>
 <p>Things like examining the distinct values in a column help you a lot in better understanding your data. You can use the <code>collapse::fndistinct</code> function to check the number of distinct values per column</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fndistinct</span>(ccm_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -530,7 +530,7 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-15" data-code-annotation="1" data-code-lines="1">Start with the table ccm_raw</span>
+<span data-code-cell="annotated-cell-15" data-code-annotation="1" data-code-lines="1">Start with the table ccm</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
 <dd>
@@ -573,7 +573,7 @@ Summary of Table Frequencies
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-annotation="1" data-code-lines="1">Start with the table ccm_raw</span>
+<span data-code-cell="annotated-cell-16" data-code-annotation="1" data-code-lines="1">Start with the table ccm</span>
 </dd>
 <dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
 <dd>
@@ -597,7 +597,7 @@ Summary of Table Frequencies
 </div>
 </div>
 <p>As the example above shows: <code>dplyr::select</code> and <code>dplyr::filter</code> are two fundamental slicing and indexing functions. <code>filter</code> is for rows and <code>select</code>is for columns.</p>
-<p>The purpose here was to examine what ticker, currency, and stock exchange code ASM is associated with. We also want to check there is more than one combination of values for these five columns (there is not). For example, ASM is in our sample for more than one year and it might have changed its ticker over time, etc.). We see that ASM has a ticker and an exchg code of 19, which means “Other-OTC” per the compustat <a href="https://wrds-www.wharton.upenn.edu/documents/1583/Compustat_Data_Guide.pdf">data guide</a>. These can include international filers. In fact, most of the observations fall into category 19 (another one, 14, is NASDAQ). Depending on the intended sample—US firms or firms listed in the US—we might want to exclude them.</p>
+<p>The purpose here was to examine what ticker, currency, and stock exchange code ASM is associated with. We also want to check whether there is more than one combination of values for these five columns (there is not). For example, ASM is in our sample for more than one year and it might have changed its ticker over time, etc.). We see that ASM has a ticker and an exchg code of 19, which means “Other-OTC” per the compustat <a href="https://wrds-www.wharton.upenn.edu/documents/1583/Compustat_Data_Guide.pdf">data guide</a>. These can include international filers. In fact, most of the observations fall into category 19 (another one, 14, is NASDAQ). Depending on the intended sample—US firms or firms listed in the US—we might want to exclude them.</p>
 </section>
 </section>
 <section id="ensure-one-observation-per-unit-of-analysis" class="level2">
@@ -959,7 +959,7 @@ Size  218211          -           -  -Inf   15.1355</code></pre>
 
 <ol>
 <li id="fn1"><p>These are essentially text files that you could open in a text editor to look at the values. They have the advantage that most programs can read them (because they are text files). The disadvantage is that they usually take more disk space and take longer to read. That is something you will only notice with big files though.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Base R also has a <code>data.frame</code> type, of which <code>tibble</code> is a derivative. There are also others, like <code>data.table</code> (which we won’t cover, even though it is awesome. It is is advanced stuff). Except for data.table, they are mostly interchangeable.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Base R also has a <code>data.frame</code> type, of which <code>tibble</code> is a derivative. There are also others, like <code>data.table</code> (which we won’t cover, even though it is awesome. It is advanced stuff). Except for data.table, they are mostly interchangeable.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
